@@ -49,8 +49,8 @@ dependencies {
     modApi "net.fabricmc.fabric-api:fabric-api:${fabricApiVersion}"
 
     // Cardinal Components
-    modApi(include("dev.onyxstudios.cardinal-components-api:cardinal-components-base:5.1.0"))
-    modApi(include("dev.onyxstudios.cardinal-components-api:cardinal-components-entity:5.1.0"))
+    modApi include("dev.onyxstudios.cardinal-components-api:cardinal-components-base:5.1.0")
+    modApi include("dev.onyxstudios.cardinal-components-api:cardinal-components-entity:5.1.0")
 
     // Quality of Life Mods
     modLocalRuntime "com.terraformersmc:modmenu:5.0.2"
