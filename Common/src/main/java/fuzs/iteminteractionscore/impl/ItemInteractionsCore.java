@@ -33,13 +33,8 @@ public class ItemInteractionsCore implements ModConstructor {
     @Override
     public void onConstructMod() {
         ModRegistry.touch();
-        registerHandlers();
         registerMessages();
-    }
-
-    private static void registerHandlers() {
-        PlayerTickEvents.START.register(EnderChestMenuHandler::onLivingTick);
-        SyncDataPackContentsCallback.EVENT.register(ItemContainerProviders.INSTANCE::sendProvidersToPlayer);
+        registerHandlers();
     }
 
     private static void registerMessages() {
@@ -49,6 +44,11 @@ public class ItemInteractionsCore implements ModConstructor {
         NETWORK.register(C2SEnderChestSetSlotMessage.class, C2SEnderChestSetSlotMessage::new, MessageDirection.TO_SERVER);
         NETWORK.register(C2SEnderChestMenuMessage.class, C2SEnderChestMenuMessage::new, MessageDirection.TO_SERVER);
         NETWORK.register(S2CSyncItemContainerProvider.class, S2CSyncItemContainerProvider::new, MessageDirection.TO_CLIENT);
+    }
+
+    private static void registerHandlers() {
+        PlayerTickEvents.START.register(EnderChestMenuHandler::onLivingTick);
+        SyncDataPackContentsCallback.EVENT.register(ItemContainerProviders.INSTANCE::sendProvidersToPlayer);
     }
 
     @Override

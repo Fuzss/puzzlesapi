@@ -7,7 +7,6 @@
   "plugin": "fuzs.iteminteractionscore.mixin.ModMixinConfigPlugin",
   "mixins": [
     "ItemStackMixin",
-    "ShulkerBoxBlockMixin",
     "accessor.BundleItemAccessor"
   ],
   "client": [
