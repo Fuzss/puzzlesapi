@@ -52,7 +52,7 @@ public class ContainerItemHelperImpl implements ContainerItemHelper {
     }
 
     @Override
-    public NonNullList<ItemStack> convertContainerToList(SimpleContainer container) {
+    public NonNullList<ItemStack> getListFromContainer(SimpleContainer container) {
         NonNullList<ItemStack> items = NonNullList.create();
         for (int i = 0; i < container.getContainerSize(); i++) {
             items.add(container.getItem(i));

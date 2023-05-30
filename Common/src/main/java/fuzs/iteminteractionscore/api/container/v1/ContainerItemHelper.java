@@ -21,7 +21,7 @@ public interface ContainerItemHelper {
 
     int getItemWeight(ItemStack stack);
 
-    NonNullList<ItemStack> convertContainerToList(SimpleContainer container);
+    NonNullList<ItemStack> getListFromContainer(SimpleContainer container);
 
     float[] getBackgroundColor(@Nullable DyeColor backgroundColor);
 }

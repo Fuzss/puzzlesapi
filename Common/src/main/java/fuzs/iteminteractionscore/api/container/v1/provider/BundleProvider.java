@@ -78,7 +78,7 @@ public class BundleProvider extends NestedTagItemProvider {
 
     public int getContentWeight(ItemStack containerStack, Player player) {
         SimpleContainer container = this.getItemContainer(containerStack, player, false);
-        return ContainerItemHelper.INSTANCE.convertContainerToList(container).stream().mapToInt(stack -> {
+        return ContainerItemHelper.INSTANCE.getListFromContainer(container).stream().mapToInt(stack -> {
             return ContainerItemHelper.INSTANCE.getItemWeight(stack) * stack.getCount();
         }).sum();
     }

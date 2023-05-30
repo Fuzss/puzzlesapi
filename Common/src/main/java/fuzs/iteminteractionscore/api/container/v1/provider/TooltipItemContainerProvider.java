@@ -19,7 +19,7 @@ public interface TooltipItemContainerProvider extends ItemContainerProvider {
     @Override
     default Optional<TooltipComponent> getTooltipImage(ItemStack containerStack, Player player) {
         SimpleContainer container = this.getItemContainer(containerStack, player, false);
-        NonNullList<ItemStack> items = ContainerItemHelper.INSTANCE.convertContainerToList(container);
+        NonNullList<ItemStack> items = ContainerItemHelper.INSTANCE.getListFromContainer(container);
         return Optional.of(this.createTooltipImageComponent(containerStack, player, items));
     }
 
