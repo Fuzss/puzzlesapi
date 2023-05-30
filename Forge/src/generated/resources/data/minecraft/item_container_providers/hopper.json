@@ -1,0 +1,6 @@
+{
+  "type": "iteminteractionscore:block_entity",
+  "block_entity_type": "minecraft:hopper",
+  "inventory_height": 1,
+  "inventory_width": 5
+}
