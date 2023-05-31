@@ -20,27 +20,26 @@ import java.util.function.Function;
 import java.util.stream.StreamSupport;
 
 public class ItemContainerProviderBuilder {
-    private int inventoryWidth;
-    private int inventoryHeight;
+    public int inventoryWidth;
+    public int inventoryHeight;
     @Nullable
-    private DyeColor dyeColor;
-    private String[] nbtKey;
-    private boolean filterContainerItems;
-    private BlockEntityType<?> blockEntityType;
-    private int capacity;
-    private List<String> disallowedItems;
-    private boolean anyGameMode;
+    public DyeColor dyeColor;
+    public String[] nbtKey;
+    public boolean filterContainerItems;
+    public BlockEntityType<?> blockEntityType;
+    public int capacity;
+    public List<String> disallowedItems;
+    public boolean anyGameMode;
     @Nullable
-    private EquipmentSlot equipmentSlot;
+    public EquipmentSlot equipmentSlot;
 
-    private ItemContainerProviderBuilder() {
-
+    public ItemContainerProviderBuilder(JsonElement jsonElement) {
+        this.fromJson(jsonElement);
     }
 
     public static Function<JsonElement, ItemContainerProvider> fromJson(Function<ItemContainerProviderBuilder, ItemContainerProvider> factory) {
         return jsonElement -> {
-            ItemContainerProviderBuilder builder = new ItemContainerProviderBuilder();
-            builder.fromJson(jsonElement);
+            ItemContainerProviderBuilder builder = new ItemContainerProviderBuilder(jsonElement);
             ItemContainerProvider provider = factory.apply(builder);
             if (provider instanceof SimpleItemProvider itemProvider && builder.filterContainerItems) {
                 itemProvider.filterContainerItems();
@@ -100,14 +99,14 @@ public class ItemContainerProviderBuilder {
         return new EnderChestProvider();
     }
 
-    private void checkInventorySize(String type) {
+    public void checkInventorySize(String type) {
         if (this.inventoryWidth == -1)
             throw new IllegalStateException(getErrorMessage("inventory_width", type));
         if (this.inventoryHeight == -1)
             throw new IllegalStateException(getErrorMessage("inventory_height", type));
     }
 
-    private static String getErrorMessage(String jsonKey, String providerType) {
+    public static String getErrorMessage(String jsonKey, String providerType) {
         return "'%s' not set for provider of type '%s'".formatted(jsonKey, providerType);
     }
 }

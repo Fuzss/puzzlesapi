@@ -2,7 +2,6 @@ package fuzs.iteminteractionscore.impl;
 
 import fuzs.iteminteractionscore.impl.capability.ContainerClientInputCapability;
 import fuzs.iteminteractionscore.impl.capability.EnderChestMenuCapability;
-import fuzs.iteminteractionscore.impl.data.ModItemContainerProvider;
 import fuzs.iteminteractionscore.impl.data.ModLanguageProvider;
 import fuzs.iteminteractionscore.impl.init.ModRegistry;
 import fuzs.puzzleslib.api.capability.v2.ForgeCapabilityHelper;
@@ -40,7 +39,6 @@ public class ItemInteractionsCoreForge {
         final PackOutput packOutput = dataGenerator.getPackOutput();
         final CompletableFuture<HolderLookup.Provider> lookupProvider = evt.getLookupProvider();
         final ExistingFileHelper fileHelper = evt.getExistingFileHelper();
-        dataGenerator.addProvider(true, new ModItemContainerProvider(packOutput));
         dataGenerator.addProvider(true, new ModLanguageProvider(packOutput, ItemInteractionsCore.MOD_ID));
     }
 }

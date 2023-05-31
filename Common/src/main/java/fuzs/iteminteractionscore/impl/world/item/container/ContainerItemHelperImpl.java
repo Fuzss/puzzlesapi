@@ -2,7 +2,6 @@ package fuzs.iteminteractionscore.impl.world.item.container;
 
 import fuzs.iteminteractionscore.api.container.v1.ContainerItemHelper;
 import fuzs.iteminteractionscore.api.container.v1.provider.ItemContainerProvider;
-import fuzs.iteminteractionscore.impl.world.inventory.SimpleSlotContainer;
 import fuzs.iteminteractionscore.mixin.accessor.BundleItemAccessor;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
@@ -19,11 +18,6 @@ public class ContainerItemHelperImpl implements ContainerItemHelper {
     @Override
     public @Nullable ItemContainerProvider getItemContainerProvider(ItemStack stack) {
         return ItemContainerProviders.INSTANCE.get(stack);
-    }
-
-    @Override
-    public SimpleContainer loadItemContainer(ItemStack stack, ItemContainerProvider provider, int inventorySize, boolean allowSaving, String nbtKey) {
-        return this.loadItemContainer(stack, provider, items -> new SimpleSlotContainer(inventorySize), allowSaving, nbtKey);
     }
 
     @Override

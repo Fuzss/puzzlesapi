@@ -17,8 +17,8 @@ import java.util.Optional;
 public class BundleProvider extends NestedTagItemProvider {
     private final int capacity;
 
-    public BundleProvider(int capacity) {
-        this(capacity, DyeColor.BROWN, ItemInteractionHelper.TAG_ITEMS);
+    public BundleProvider(int capacity, @Nullable DyeColor dyeColor) {
+        this(capacity, dyeColor, ItemInteractionHelper.TAG_ITEMS);
     }
 
     public BundleProvider(int capacity, @Nullable DyeColor dyeColor, String... nbtKey) {
@@ -52,8 +52,8 @@ public class BundleProvider extends NestedTagItemProvider {
         return Math.min(this.getAvailableBundleItemSpace(containerStack, stackToAdd, player), super.getAcceptableItemCount(containerStack, stackToAdd, player));
     }
 
-    public int getAvailableBundleItemSpace(ItemStack containerStack, ItemStack stackToAdd, Player player) {
-        int itemWeight = ContainerItemHelper.INSTANCE.getItemWeight(stackToAdd);
+    protected int getAvailableBundleItemSpace(ItemStack containerStack, ItemStack stackToAdd, Player player) {
+        int itemWeight = this.getItemWeight(stackToAdd);
         // fix java.lang.ArithmeticException: / by zero from Numismatic Overhaul as their coins stack to 99 instead of 64
         if (itemWeight <= 0) return 0;
         return (this.getCapacity() - this.getContentWeight(containerStack, player)) / itemWeight;
@@ -76,11 +76,15 @@ public class BundleProvider extends NestedTagItemProvider {
         return new ModBundleTooltip(items, this.getContentWeight(containerStack, player) >= this.getCapacity(), this.getBackgroundColor());
     }
 
-    public int getContentWeight(ItemStack containerStack, Player player) {
+    protected int getContentWeight(ItemStack containerStack, Player player) {
         SimpleContainer container = this.getItemContainer(containerStack, player, false);
         return ContainerItemHelper.INSTANCE.getListFromContainer(container).stream().mapToInt(stack -> {
-            return ContainerItemHelper.INSTANCE.getItemWeight(stack) * stack.getCount();
+            return this.getItemWeight(stack) * stack.getCount();
         }).sum();
+    }
+
+    protected int getItemWeight(ItemStack stack) {
+        return ContainerItemHelper.INSTANCE.getItemWeight(stack);
     }
 
     @Override

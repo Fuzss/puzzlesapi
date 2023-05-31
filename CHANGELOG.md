@@ -3,6 +3,13 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog].
 
+## [v5.0.2-1.19.3] - 2023-05-30
+### Changed
+- Made `ItemContainerProviderBuilder` extensible
+- Improvements to `BundleProvider`
+### Removed
+- Removed leftover built-in providers from testing
+
 ## [v5.0.1-1.19.3] - 2023-05-30
 ### Changed
 - Add missing `@ApiStatus.Internal` annotations
