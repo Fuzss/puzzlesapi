@@ -57,13 +57,13 @@ public abstract class AbstractClientContainerItemTooltip extends ExpandableClien
     }
 
     @Override
-    public void renderExpandedImage(Font font, int mouseX, int mouseY, PoseStack poseStack, ItemRenderer itemRenderer, int blitOffset) {
+    public void renderExpandedImage(Font font, int mouseX, int mouseY, PoseStack poseStack, ItemRenderer itemRenderer) {
         ACTIVE_CONTAINER_ITEM_TOOLTIPS.increment();
         float[] color = this.getBackgroundColor();
         if (this.defaultSize()) {
-            ContainerTexture.FULL.blit(poseStack, mouseX, mouseY, blitOffset, color);
+            ContainerTexture.FULL.blit(poseStack, mouseX, mouseY, color);
         } else {
-            this.drawBorder(mouseX, mouseY, this.getGridSizeX(), this.getGridSizeY(), poseStack, blitOffset);
+            this.drawBorder(mouseX, mouseY, this.getGridSizeX(), this.getGridSizeY(), poseStack);
         }
         int itemIndex = 0;
         int lastFilledSlot = this.getLastFilledSlot();
@@ -73,18 +73,16 @@ public abstract class AbstractClientContainerItemTooltip extends ExpandableClien
                 int posY = mouseY + l * 18 + BORDER_SIZE;
                 if (!this.defaultSize()) {
                     if (this.isSlotBlocked(itemIndex)) {
-                        ContainerTexture.BLOCKED_SLOT.blit(poseStack, posX, posY, blitOffset, color);
+                        ContainerTexture.BLOCKED_SLOT.blit(poseStack, posX, posY, color);
                     } else {
-                        ContainerTexture.SLOT.blit(poseStack, posX, posY, blitOffset, color);
+                        ContainerTexture.SLOT.blit(poseStack, posX, posY, color);
                     }
                 }
-                this.drawSlot(posX, posY, itemIndex, font, itemRenderer);
-                if (itemIndex == lastFilledSlot) this.drawSlotOverlay(poseStack, posX, posY, blitOffset);
+                this.drawSlot(poseStack, posX, posY, itemIndex, font, itemRenderer);
+                if (itemIndex == lastFilledSlot) this.drawSlotOverlay(poseStack, posX, posY);
                 itemIndex++;
             }
         }
-        // reset color for other mods
-        RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
         this.drawSelectedSlotTooltip(font, mouseX, mouseY, poseStack, lastFilledSlot);
         ACTIVE_CONTAINER_ITEM_TOOLTIPS.decrement();
     }
@@ -144,43 +142,43 @@ public abstract class AbstractClientContainerItemTooltip extends ExpandableClien
         return -1;
     }
 
-    private void drawBorder(int mouseX, int mouseY, int gridSizeX, int gridSizeY, PoseStack poseStack, int blitOffset) {
+    private void drawBorder(int mouseX, int mouseY, int gridSizeX, int gridSizeY, PoseStack poseStack) {
         float[] color = this.getBackgroundColor();
-        ContainerTexture.BORDER_TOP_LEFT.blit(poseStack, mouseX, mouseY, blitOffset, color);
-        ContainerTexture.BORDER_TOP_RIGHT.blit(poseStack, mouseX + gridSizeX * 18 + BORDER_SIZE, mouseY, blitOffset, color);
+        ContainerTexture.BORDER_TOP_LEFT.blit(poseStack, mouseX, mouseY, color);
+        ContainerTexture.BORDER_TOP_RIGHT.blit(poseStack, mouseX + gridSizeX * 18 + BORDER_SIZE, mouseY, color);
 
         for (int i = 0; i < gridSizeX; ++i) {
-            ContainerTexture.BORDER_TOP.blit(poseStack, mouseX + BORDER_SIZE + i * 18, mouseY, blitOffset, color);
-            ContainerTexture.BORDER_BOTTOM.blit(poseStack, mouseX + BORDER_SIZE + i * 18, mouseY + gridSizeY * 18 + BORDER_SIZE, blitOffset, color);
+            ContainerTexture.BORDER_TOP.blit(poseStack, mouseX + BORDER_SIZE + i * 18, mouseY, color);
+            ContainerTexture.BORDER_BOTTOM.blit(poseStack, mouseX + BORDER_SIZE + i * 18, mouseY + gridSizeY * 18 + BORDER_SIZE, color);
         }
 
         for (int j = 0; j < gridSizeY; ++j) {
-            ContainerTexture.BORDER_LEFT.blit(poseStack, mouseX, mouseY + j * 18 + BORDER_SIZE, blitOffset, color);
-            ContainerTexture.BORDER_RIGHT.blit(poseStack, mouseX + gridSizeX * 18 + BORDER_SIZE, mouseY + j * 18 + BORDER_SIZE, blitOffset, color);
+            ContainerTexture.BORDER_LEFT.blit(poseStack, mouseX, mouseY + j * 18 + BORDER_SIZE, color);
+            ContainerTexture.BORDER_RIGHT.blit(poseStack, mouseX + gridSizeX * 18 + BORDER_SIZE, mouseY + j * 18 + BORDER_SIZE, color);
         }
 
-        ContainerTexture.BORDER_BOTTOM_LEFT.blit(poseStack, mouseX, mouseY + gridSizeY * 18 + BORDER_SIZE, blitOffset, color);
-        ContainerTexture.BORDER_BOTTOM_RIGHT.blit(poseStack, mouseX + gridSizeX * 18 + BORDER_SIZE, mouseY + gridSizeY * 18 + BORDER_SIZE, blitOffset, color);
+        ContainerTexture.BORDER_BOTTOM_LEFT.blit(poseStack, mouseX, mouseY + gridSizeY * 18 + BORDER_SIZE, color);
+        ContainerTexture.BORDER_BOTTOM_RIGHT.blit(poseStack, mouseX + gridSizeX * 18 + BORDER_SIZE, mouseY + gridSizeY * 18 + BORDER_SIZE, color);
     }
 
-    private void drawSlot(int posX, int posY, int itemIndex, Font font, ItemRenderer itemRenderer) {
+    private void drawSlot(PoseStack poseStack, int posX, int posY, int itemIndex, Font font, ItemRenderer itemRenderer) {
         if (itemIndex < this.items.size()) {
             ItemStack itemstack = this.items.get(itemIndex);
-            itemRenderer.renderAndDecorateItem(itemstack, posX + 1, posY + 1, itemIndex);
-            itemRenderer.renderGuiItemDecorations(font, itemstack, posX + 1, posY + 1);
+            itemRenderer.renderAndDecorateItem(poseStack, itemstack, posX + 1, posY + 1, itemIndex);
+            itemRenderer.renderGuiItemDecorations(poseStack, font, itemstack, posX + 1, posY + 1);
         }
     }
 
-    private void drawSlotOverlay(PoseStack poseStack, int posX, int posY, int blitOffset) {
+    private void drawSlotOverlay(PoseStack poseStack, int posX, int posY) {
         if (ACTIVE_CONTAINER_ITEM_TOOLTIPS.intValue() > 1) return;
         ClientConfig.SlotOverlay slotOverlay = ItemInteractionsCore.CONFIG.get(ClientConfig.class).slotOverlay;
         if (slotOverlay == ClientConfig.SlotOverlay.HOTBAR) {
             RenderSystem.setShader(GameRenderer::getPositionTexShader);
             RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
             RenderSystem.setShaderTexture(0, WIDGETS_LOCATION);
-            GuiComponent.blit(poseStack, posX - 3, posY - 3, blitOffset + 100, 0, 22, 24, 24, 256, 256);
+            GuiComponent.blit(poseStack, posX - 3, posY - 3, 100, 0, 22, 24, 24, 256, 256);
         } else if (slotOverlay == ClientConfig.SlotOverlay.HOVER) {
-            AbstractContainerScreen.renderSlotHighlight(poseStack, posX + 1, posY + 1, blitOffset);
+            AbstractContainerScreen.renderSlotHighlight(poseStack, posX + 1, posY + 1, 0);
         }
     }
 
@@ -209,11 +207,12 @@ public abstract class AbstractClientContainerItemTooltip extends ExpandableClien
             this.height = height;
         }
 
-        private void blit(PoseStack poseStack, int posX, int posY, int blitOffset, float[] color) {
+        private void blit(PoseStack poseStack, int posX, int posY, float[] color) {
             RenderSystem.setShader(GameRenderer::getPositionTexShader);
             RenderSystem.setShaderColor(color[0], color[1], color[2], 1.0F);
             RenderSystem.setShaderTexture(0, TEXTURE_LOCATION);
-            GuiComponent.blit(poseStack, posX, posY, blitOffset, this.textureX, this.textureY, this.width, this.height, 256, 256);
+            GuiComponent.blit(poseStack, posX, posY, 0, this.textureX, this.textureY, this.width, this.height, 256, 256);
+            RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
         }
     }
 }

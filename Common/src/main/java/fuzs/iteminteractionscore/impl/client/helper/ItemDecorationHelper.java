@@ -32,14 +32,14 @@ public class ItemDecorationHelper {
     private static Slot activeSlot;
 
     private static DynamicItemDecorator getDynamicItemDecorator(ItemDecoratorProvider filter, BooleanSupplier allow) {
-        return (Font font, ItemStack stack, int itemPosX, int itemPosY, float blitOffset) -> {
+        return (PoseStack poseStack, Font font, ItemStack stack, int itemPosX, int itemPosY) -> {
             if (!allow.getAsBoolean()) return false;
-            return tryRenderItemDecorations(font, stack, itemPosX, itemPosY, blitOffset, filter);
+            return tryRenderItemDecorations(poseStack, font, stack, itemPosX, itemPosY, filter);
         };
     }
 
     @SuppressWarnings("ConstantConditions")
-    private static boolean tryRenderItemDecorations(Font font, ItemStack stack, int itemPosX, int itemPosY, float blitOffset, ItemDecoratorProvider filter) {
+    private static boolean tryRenderItemDecorations(PoseStack poseStack, Font font, ItemStack stack, int itemPosX, int itemPosY, ItemDecoratorProvider filter) {
         Minecraft minecraft = Minecraft.getInstance();
         // prevent rendering on items used as icons for creative mode tabs and for backpacks in locked slots (like Inmis)
         if (!(minecraft.screen instanceof AbstractContainerScreen<?> screen)) return false;
@@ -49,11 +49,12 @@ public class ItemDecorationHelper {
             if (stack != carriedStack) {
                 ItemDecoratorType type = filter.get(screen, stack, carriedStack);
                 if (type != ItemDecoratorType.NONE) {
-                    PoseStack posestack = new PoseStack();
-                    posestack.translate(0.0, 0.0, blitOffset + 200.0);
+                    poseStack.pushPose();
+                    poseStack.translate(0.0, 0.0, 200.0);
                     MultiBufferSource.BufferSource multibuffersource$buffersource = MultiBufferSource.immediate(Tesselator.getInstance().getBuilder());
-                    font.drawInBatch(type.getText(), (float) (itemPosX + 19 - 2 - type.getWidth(font)), (float) (itemPosY + 6 + 3), type.getColor(), true, posestack.last().pose(), multibuffersource$buffersource, false, 0, 15728880);
+                    font.drawInBatch(type.getText(), (float) (itemPosX + 19 - 2 - type.getWidth(font)), (float) (itemPosY + 6 + 3), type.getColor(), true, poseStack.last().pose(), multibuffersource$buffersource, Font.DisplayMode.NORMAL, 0, 15728880);
                     multibuffersource$buffersource.endBatch();
+                    poseStack.popPose();
                     // font renderer modifies render states, so this tells the implementation to reset them
                     return true;
                 }
@@ -76,7 +77,7 @@ public class ItemDecorationHelper {
         return false;
     }
 
-    public static void render(Font font, ItemStack stack, int itemPosX, int itemPosY, float blitOffset) {
+    public static void render(PoseStack poseStack, Font font, ItemStack stack, int itemPosX, int itemPosY) {
         ItemContainerProvider provider = ItemContainerProviders.INSTANCE.get(stack);
         if (provider != null) {
             resetRenderState();
@@ -84,16 +85,14 @@ public class ItemDecorationHelper {
                 Minecraft minecraft = ScreenHelper.INSTANCE.getMinecraft(screen);
                 return ItemDecoratorType.getItemDecoratorType(provider, containerStack, carriedStack, minecraft.player);
             }, () -> ItemInteractionsCore.CONFIG.get(ClientConfig.class).containerItemIndicator));
-            if (itemDecorator.renderItemDecorations(font, stack, itemPosX, itemPosY, blitOffset)) {
+            if (itemDecorator.renderItemDecorations(poseStack, font, stack, itemPosX, itemPosY)) {
                 resetRenderState();
             }
         }
     }
 
     private static void resetRenderState() {
-        RenderSystem.enableTexture();
-        // this breaks trading discount strikethrough bar which will display behind the old price
-//        RenderSystem.enableDepthTest();
+        RenderSystem.enableDepthTest();
         RenderSystem.enableBlend();
         RenderSystem.defaultBlendFunc();
     }

@@ -17,8 +17,8 @@ import fuzs.puzzleslib.api.client.event.v1.ClientEntityLevelEvents;
 import fuzs.puzzleslib.api.client.event.v1.ScreenEvents;
 import fuzs.puzzleslib.api.client.event.v1.ScreenKeyboardEvents;
 import fuzs.puzzleslib.api.client.event.v1.ScreenMouseEvents;
-import fuzs.puzzleslib.api.event.v1.PlayLevelSoundEvents;
 import fuzs.puzzleslib.api.event.v1.core.EventPhase;
+import fuzs.puzzleslib.api.event.v1.level.PlayLevelSoundEvents;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 
 public class ItemInteractionsCoreClient implements ClientModConstructor {
@@ -45,7 +45,7 @@ public class ItemInteractionsCoreClient implements ClientModConstructor {
 
     @Override
     public void onRegisterKeyMappings(KeyMappingsContext context) {
-        HeldActivationType.getKeyMappingProviders().map(KeyMappingProvider::getKeyMapping).forEach(context::registerKeyMappings);
+        HeldActivationType.getKeyMappingProviders().map(KeyMappingProvider::getKeyMapping).forEach(context::registerKeyMapping);
     }
 
     @Override

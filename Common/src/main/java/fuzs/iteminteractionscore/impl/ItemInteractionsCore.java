@@ -14,8 +14,8 @@ import fuzs.iteminteractionscore.impl.world.item.container.ItemContainerProvider
 import fuzs.puzzleslib.api.config.v3.ConfigHolder;
 import fuzs.puzzleslib.api.core.v1.ModConstructor;
 import fuzs.puzzleslib.api.core.v1.context.AddReloadListenersContext;
-import fuzs.puzzleslib.api.event.v1.PlayerTickEvents;
-import fuzs.puzzleslib.api.event.v1.SyncDataPackContentsCallback;
+import fuzs.puzzleslib.api.event.v1.entity.player.PlayerTickEvents;
+import fuzs.puzzleslib.api.event.v1.server.SyncDataPackContentsCallback;
 import fuzs.puzzleslib.api.network.v2.MessageDirection;
 import fuzs.puzzleslib.api.network.v2.NetworkHandlerV2;
 import net.minecraft.resources.ResourceLocation;

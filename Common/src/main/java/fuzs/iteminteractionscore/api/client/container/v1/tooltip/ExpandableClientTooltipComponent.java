@@ -41,15 +41,15 @@ public abstract class ExpandableClientTooltipComponent implements ClientTooltipC
         HeldActivationType activation = ItemInteractionsCore.CONFIG.get(ClientConfig.class).revealContents;
         if (!activation.isActive()) {
             Component component = activation.getComponent(REVEAL_CONTENTS_TRANSLATION_KEY);
-            font.drawInBatch(component, (float) mouseX, (float) mouseY, -1, true, matrix4f, bufferSource, false, 0, 15728880);
+            font.drawInBatch(component, (float) mouseX, (float) mouseY, -1, true, matrix4f, bufferSource, Font.DisplayMode.NORMAL, 0, 15728880);
         }
     }
 
     @Override
-    public final void renderImage(Font font, int mouseX, int mouseY, PoseStack poseStack, ItemRenderer itemRenderer, int blitOffset) {
+    public final void renderImage(Font font, int mouseX, int mouseY, PoseStack poseStack, ItemRenderer itemRenderer) {
         if (!ItemInteractionsCore.CONFIG.get(ClientConfig.class).revealContents.isActive()) return;
-        this.renderExpandedImage(font, mouseX, mouseY, poseStack, itemRenderer, blitOffset);
+        this.renderExpandedImage(font, mouseX, mouseY, poseStack, itemRenderer);
     }
 
-    public abstract void renderExpandedImage(Font font, int mouseX, int mouseY, PoseStack poseStack, ItemRenderer itemRenderer, int blitOffset);
+    public abstract void renderExpandedImage(Font font, int mouseX, int mouseY, PoseStack poseStack, ItemRenderer itemRenderer);
 }
