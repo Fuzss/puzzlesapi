@@ -1,7 +1,6 @@
 package fuzs.iteminteractionscore.impl.client.handler;
 
 import com.mojang.blaze3d.platform.InputConstants;
-import com.mojang.blaze3d.vertex.PoseStack;
 import fuzs.iteminteractionscore.api.container.v1.provider.ItemContainerProvider;
 import fuzs.iteminteractionscore.impl.ItemInteractionsCore;
 import fuzs.iteminteractionscore.impl.config.ClientConfig;
@@ -10,12 +9,12 @@ import fuzs.iteminteractionscore.impl.network.client.C2SContainerClientInputMess
 import fuzs.iteminteractionscore.impl.world.inventory.ContainerSlotHelper;
 import fuzs.iteminteractionscore.impl.world.item.container.ItemContainerProviders;
 import fuzs.iteminteractionscore.mixin.client.accessor.AbstractContainerScreenAccessor;
-import fuzs.iteminteractionscore.mixin.client.accessor.ScreenAccessor;
 import fuzs.puzzleslib.api.client.screen.v2.ScreenHelper;
 import fuzs.puzzleslib.api.event.v1.core.EventResult;
 import fuzs.puzzleslib.api.event.v1.data.DefaultedFloat;
 import fuzs.puzzleslib.api.event.v1.data.MutableValue;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.core.Holder;
@@ -63,14 +62,14 @@ public class ClientInputActionHandler {
         return EventResult.PASS;
     }
 
-    public static void onAfterRender(AbstractContainerScreen<?> screen, PoseStack matrices, int mouseX, int mouseY, float tickDelta) {
+    public static void onAfterRender(AbstractContainerScreen<?> screen, GuiGraphics guiGraphics, int mouseX, int mouseY, float tickDelta) {
         // renders vanilla item tooltips when a stack is carried and the cursor hovers over a container item
         // intended to be used with single item extraction/insertion feature to be able to continuously see what's going on in the container item
         if (!ItemInteractionsCore.CONFIG.get(ClientConfig.class).carriedItemTooltips.isActive()) return;
         if (!screen.getMenu().getCarried().isEmpty()) {
             ItemStack stack = getContainerStack(screen, false);
             if (!stack.isEmpty()) {
-                ((ScreenAccessor) screen).easyshulkerboxes$callRenderTooltip(matrices, stack, mouseX, mouseY);
+                guiGraphics.renderTooltip(ScreenHelper.INSTANCE.getFont(screen), stack, mouseX, mouseY);
             }
         }
     }

@@ -2,7 +2,6 @@ package fuzs.iteminteractionscore.impl.client.helper;
 
 import com.google.common.collect.Maps;
 import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.Tesselator;
 import fuzs.iteminteractionscore.api.container.v1.provider.ItemContainerProvider;
 import fuzs.iteminteractionscore.impl.ItemInteractionsCore;
@@ -14,6 +13,7 @@ import fuzs.puzzleslib.api.client.screen.v2.ScreenHelper;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.world.entity.player.Player;
@@ -32,14 +32,14 @@ public class ItemDecorationHelper {
     private static Slot activeSlot;
 
     private static DynamicItemDecorator getDynamicItemDecorator(ItemDecoratorProvider filter, BooleanSupplier allow) {
-        return (PoseStack poseStack, Font font, ItemStack stack, int itemPosX, int itemPosY) -> {
+        return (GuiGraphics guiGraphics, Font font, ItemStack stack, int itemPosX, int itemPosY) -> {
             if (!allow.getAsBoolean()) return false;
-            return tryRenderItemDecorations(poseStack, font, stack, itemPosX, itemPosY, filter);
+            return tryRenderItemDecorations(guiGraphics, font, stack, itemPosX, itemPosY, filter);
         };
     }
 
     @SuppressWarnings("ConstantConditions")
-    private static boolean tryRenderItemDecorations(PoseStack poseStack, Font font, ItemStack stack, int itemPosX, int itemPosY, ItemDecoratorProvider filter) {
+    private static boolean tryRenderItemDecorations(GuiGraphics guiGraphics, Font font, ItemStack stack, int itemPosX, int itemPosY, ItemDecoratorProvider filter) {
         Minecraft minecraft = Minecraft.getInstance();
         // prevent rendering on items used as icons for creative mode tabs and for backpacks in locked slots (like Inmis)
         if (!(minecraft.screen instanceof AbstractContainerScreen<?> screen)) return false;
@@ -49,12 +49,12 @@ public class ItemDecorationHelper {
             if (stack != carriedStack) {
                 ItemDecoratorType type = filter.get(screen, stack, carriedStack);
                 if (type != ItemDecoratorType.NONE) {
-                    poseStack.pushPose();
-                    poseStack.translate(0.0, 0.0, 200.0);
+                    guiGraphics.pose().pushPose();
+                    guiGraphics.pose().translate(0.0, 0.0, 200.0);
                     MultiBufferSource.BufferSource multibuffersource$buffersource = MultiBufferSource.immediate(Tesselator.getInstance().getBuilder());
-                    font.drawInBatch(type.getText(), (float) (itemPosX + 19 - 2 - type.getWidth(font)), (float) (itemPosY + 6 + 3), type.getColor(), true, poseStack.last().pose(), multibuffersource$buffersource, Font.DisplayMode.NORMAL, 0, 15728880);
+                    font.drawInBatch(type.getText(), (float) (itemPosX + 19 - 2 - type.getWidth(font)), (float) (itemPosY + 6 + 3), type.getColor(), true, guiGraphics.pose().last().pose(), multibuffersource$buffersource, Font.DisplayMode.NORMAL, 0, 15728880);
                     multibuffersource$buffersource.endBatch();
-                    poseStack.popPose();
+                    guiGraphics.pose().popPose();
                     // font renderer modifies render states, so this tells the implementation to reset them
                     return true;
                 }
@@ -77,7 +77,7 @@ public class ItemDecorationHelper {
         return false;
     }
 
-    public static void render(PoseStack poseStack, Font font, ItemStack stack, int itemPosX, int itemPosY) {
+    public static void render(GuiGraphics guiGraphics, Font font, ItemStack stack, int itemPosX, int itemPosY) {
         ItemContainerProvider provider = ItemContainerProviders.INSTANCE.get(stack);
         if (provider != null) {
             resetRenderState();
@@ -85,7 +85,7 @@ public class ItemDecorationHelper {
                 Minecraft minecraft = ScreenHelper.INSTANCE.getMinecraft(screen);
                 return ItemDecoratorType.getItemDecoratorType(provider, containerStack, carriedStack, minecraft.player);
             }, () -> ItemInteractionsCore.CONFIG.get(ClientConfig.class).containerItemIndicator));
-            if (itemDecorator.renderItemDecorations(poseStack, font, stack, itemPosX, itemPosY)) {
+            if (itemDecorator.renderItemDecorations(guiGraphics, font, stack, itemPosX, itemPosY)) {
                 resetRenderState();
             }
         }

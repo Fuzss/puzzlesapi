@@ -53,7 +53,7 @@ public class EnderChestProvider implements TooltipItemContainerProvider {
 
     @Override
     public void broadcastContainerChanges(Player player) {
-        if (player.level.isClientSide) {
+        if (player.level().isClientSide) {
             // will only actually broadcast when in creative menu as that menu needs manual syncing
             ModRegistry.ENDER_CHEST_MENU_CAPABILITY.maybeGet(player)
                     .map(EnderChestMenuCapability::getEnderChestMenu)

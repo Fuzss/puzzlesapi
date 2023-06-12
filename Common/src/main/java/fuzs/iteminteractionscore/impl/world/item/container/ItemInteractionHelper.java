@@ -69,7 +69,7 @@ public class ItemInteractionHelper {
         ItemStack stackToAdd = result.getLeft();
         if (!stackToAdd.isEmpty()) {
             addToSlot.accept(stackToAdd, result.getRight());
-            player.playSound(SoundEvents.BUNDLE_REMOVE_ONE, 0.8F, 0.8F + player.getLevel().getRandom().nextFloat() * 0.4F);
+            player.playSound(SoundEvents.BUNDLE_REMOVE_ONE, 0.8F, 0.8F + player.level().getRandom().nextFloat() * 0.4F);
         }
     }
 
@@ -82,7 +82,7 @@ public class ItemInteractionHelper {
         }
         stackInSlot.shrink(transferredCount);
         if (transferredCount > 0) {
-            player.playSound(SoundEvents.BUNDLE_INSERT, 0.8F, 0.8F + player.getLevel().getRandom().nextFloat() * 0.4F);
+            player.playSound(SoundEvents.BUNDLE_INSERT, 0.8F, 0.8F + player.level().getRandom().nextFloat() * 0.4F);
         }
     }
 

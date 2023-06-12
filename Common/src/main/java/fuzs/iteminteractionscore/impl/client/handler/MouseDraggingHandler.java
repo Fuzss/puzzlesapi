@@ -13,6 +13,7 @@ import fuzs.puzzleslib.api.event.v1.core.EventResult;
 import fuzs.puzzleslib.api.event.v1.data.DefaultedFloat;
 import fuzs.puzzleslib.api.event.v1.data.MutableValue;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.resources.sounds.SimpleSoundInstance;
@@ -33,13 +34,11 @@ import java.util.Objects;
 import java.util.Set;
 
 public class MouseDraggingHandler {
-    public static final MouseDraggingHandler INSTANCE = new MouseDraggingHandler();
-
-    public final Set<Slot> containerDragSlots = Sets.newHashSet();
+    private static final Set<Slot> CONTAINER_DRAG_SLOTS = Sets.newHashSet();
     @Nullable
-    private ContainerDragType containerDragType;
+    private static ContainerDragType containerDragType;
 
-    public EventResult onBeforeMousePressed(Screen screen, double mouseX, double mouseY, int button) {
+    public static EventResult onBeforeMousePressed(Screen screen, double mouseX, double mouseY, int button) {
         if (!shouldHandleMouseDragging(screen)) return EventResult.PASS;
         ItemStack carriedStack = ((AbstractContainerScreen<?>) screen).getMenu().getCarried();
         ItemContainerProvider provider = ItemContainerProviders.INSTANCE.get(carriedStack);
@@ -48,37 +47,37 @@ public class MouseDraggingHandler {
             Slot slot = ((AbstractContainerScreenAccessor) screen).easyshulkerboxes$callFindSlot(mouseX, mouseY);
             if (slot != null) {
                 if (slot.hasItem() && !ClientInputActionHandler.precisionModeAllowedAndActive()) {
-                    this.containerDragType = ContainerDragType.INSERT;
+                    containerDragType = ContainerDragType.INSERT;
                 } else {
-                    this.containerDragType = ContainerDragType.REMOVE;
+                    containerDragType = ContainerDragType.REMOVE;
                 }
-                this.containerDragSlots.clear();
+                CONTAINER_DRAG_SLOTS.clear();
                 return EventResult.INTERRUPT;
             }
         }
-        this.containerDragType = null;
+        containerDragType = null;
         return EventResult.PASS;
     }
 
-    public EventResult onBeforeMouseDragged(Screen screen, double mouseX, double mouseY, int button, double dragX, double dragY) {
+    public static EventResult onBeforeMouseDragged(Screen screen, double mouseX, double mouseY, int button, double dragX, double dragY) {
         if (!shouldHandleMouseDragging(screen)) return EventResult.PASS;
-        if (this.containerDragType != null) {
+        if (containerDragType != null) {
             if (!validMouseButton(button)) {
-                this.containerDragType = null;
-                this.containerDragSlots.clear();
+                containerDragType = null;
+                CONTAINER_DRAG_SLOTS.clear();
                 return EventResult.PASS;
             }
             Slot slot = ((AbstractContainerScreenAccessor) screen).easyshulkerboxes$callFindSlot(mouseX, mouseY);
             AbstractContainerMenu menu = ((AbstractContainerScreen<?>) screen).getMenu();
-            if (slot != null && menu.canDragTo(slot) && !this.containerDragSlots.contains(slot)) {
+            if (slot != null && menu.canDragTo(slot) && !CONTAINER_DRAG_SLOTS.contains(slot)) {
                 ItemStack carriedStack = menu.getCarried();
                 ItemContainerProvider provider = ItemContainerProviders.INSTANCE.get(carriedStack);
                 Objects.requireNonNull(provider, "provider is null");
                 Minecraft minecraft = ScreenHelper.INSTANCE.getMinecraft(screen);
                 boolean interact = false;
-                if (this.containerDragType == ContainerDragType.INSERT && slot.hasItem() && provider.canAddItem(carriedStack, slot.getItem(), minecraft.player)) {
+                if (containerDragType == ContainerDragType.INSERT && slot.hasItem() && provider.canAddItem(carriedStack, slot.getItem(), minecraft.player)) {
                     interact = true;
-                } else if (this.containerDragType == ContainerDragType.REMOVE) {
+                } else if (containerDragType == ContainerDragType.REMOVE) {
                     boolean normalInteraction = button == InputConstants.MOUSE_BUTTON_RIGHT && !slot.hasItem() && !provider.getItemContainer(carriedStack, minecraft.player, false).isEmpty();
                     if (normalInteraction || slot.hasItem() && ClientInputActionHandler.precisionModeAllowedAndActive()) {
                         interact = true;
@@ -86,7 +85,7 @@ public class MouseDraggingHandler {
                 }
                 if (interact) {
                     ((AbstractContainerScreenAccessor) screen).easyshulkerboxes$callSlotClicked(slot, slot.index, button, ClickType.PICKUP);
-                    this.containerDragSlots.add(slot);
+                    CONTAINER_DRAG_SLOTS.add(slot);
                     return EventResult.INTERRUPT;
                 }
             }
@@ -94,22 +93,22 @@ public class MouseDraggingHandler {
         return EventResult.PASS;
     }
 
-    public EventResult onBeforeMouseRelease(Screen screen, double mouseX, double mouseY, int button) {
+    public static EventResult onBeforeMouseRelease(Screen screen, double mouseX, double mouseY, int button) {
         if (!shouldHandleMouseDragging(screen)) return EventResult.PASS;
-        if (this.containerDragType != null) {
-            if (validMouseButton(button) && !this.containerDragSlots.isEmpty()) {
+        if (containerDragType != null) {
+            if (validMouseButton(button) && !CONTAINER_DRAG_SLOTS.isEmpty()) {
                 if (!ItemInteractionsCore.CONFIG.get(ClientConfig.class).disableInteractionSounds) {
                     // play this manually at the end, we suppress all interaction sounds played while dragging
-                    SimpleSoundInstance sound = SimpleSoundInstance.forUI(this.containerDragType.sound, 0.8F, 0.8F + SoundInstance.createUnseededRandom().nextFloat() * 0.4F);
+                    SimpleSoundInstance sound = SimpleSoundInstance.forUI(containerDragType.sound, 0.8F, 0.8F + SoundInstance.createUnseededRandom().nextFloat() * 0.4F);
                     ScreenHelper.INSTANCE.getMinecraft(screen).getSoundManager().play(sound);
                 }
-                this.containerDragType = null;
-                this.containerDragSlots.clear();
+                containerDragType = null;
+                CONTAINER_DRAG_SLOTS.clear();
                 return EventResult.INTERRUPT;
             }
-            this.containerDragType = null;
+            containerDragType = null;
         }
-        this.containerDragSlots.clear();
+        CONTAINER_DRAG_SLOTS.clear();
         return EventResult.PASS;
     }
 
@@ -125,10 +124,31 @@ public class MouseDraggingHandler {
         return button == InputConstants.MOUSE_BUTTON_RIGHT;
     }
 
-    public EventResult onPlaySoundAtPosition(Level level, Entity entity, MutableValue<Holder<SoundEvent>> sound, MutableValue<SoundSource> source, DefaultedFloat volume, DefaultedFloat pitch) {
+    public static void onDrawForeground(AbstractContainerScreen<?> screen, GuiGraphics guiGraphics, int mouseX, int mouseY) {
+        for (Slot slot : screen.getMenu().slots) {
+            if (CONTAINER_DRAG_SLOTS.contains(slot)) {
+                // slots will sometimes be added to dragged slots when simply clicking on a slot, so don't render our overlay then
+                if (CONTAINER_DRAG_SLOTS.size() > 1 || !isHovering(screen, slot, mouseX, mouseY)) {
+                    guiGraphics.fill(slot.x, slot.y, slot.x + 16, slot.y + 16, -2130706433);
+                }
+            }
+        }
+    }
+
+    private static boolean isHovering(AbstractContainerScreen<?> screen, Slot slot, double mouseX, double mouseY) {
+        return isHovering(slot.x, slot.y, 16, 16, ScreenHelper.INSTANCE.getLeftPos(screen), ScreenHelper.INSTANCE.getTopPos(screen), mouseX, mouseY);
+    }
+
+    private static boolean isHovering(int x, int y, int width, int height, int leftPos, int topPos, double mouseX, double mouseY) {
+        mouseX -= leftPos;
+        mouseY -= topPos;
+        return mouseX >= (double)(x - 1) && mouseX < (double)(x + width + 1) && mouseY >= (double)(y - 1) && mouseY < (double)(y + height + 1);
+    }
+
+    public static EventResult onPlaySoundAtPosition(Level level, Entity entity, MutableValue<Holder<SoundEvent>> sound, MutableValue<SoundSource> source, DefaultedFloat volume, DefaultedFloat pitch) {
         // prevent the bundle sounds from being spammed when dragging, not a nice solution, but it works
-        if (this.containerDragType != null && source.get() == SoundSource.PLAYERS) {
-            if (sound.get().value() == this.containerDragType.sound) {
+        if (containerDragType != null && source.get() == SoundSource.PLAYERS) {
+            if (sound.get().value() == containerDragType.sound) {
                 return EventResult.INTERRUPT;
             }
         }

@@ -1,13 +1,12 @@
 package fuzs.iteminteractionscore.api.client.container.v1.tooltip;
 
-import com.mojang.blaze3d.vertex.PoseStack;
 import fuzs.iteminteractionscore.impl.ItemInteractionsCore;
 import fuzs.iteminteractionscore.impl.client.core.HeldActivationType;
 import fuzs.iteminteractionscore.impl.config.ClientConfig;
 import net.minecraft.client.gui.Font;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.tooltip.ClientTooltipComponent;
 import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.entity.ItemRenderer;
 import net.minecraft.network.chat.Component;
 import org.joml.Matrix4f;
 
@@ -46,10 +45,10 @@ public abstract class ExpandableClientTooltipComponent implements ClientTooltipC
     }
 
     @Override
-    public final void renderImage(Font font, int mouseX, int mouseY, PoseStack poseStack, ItemRenderer itemRenderer) {
+    public final void renderImage(Font font, int mouseX, int mouseY, GuiGraphics guiGraphics) {
         if (!ItemInteractionsCore.CONFIG.get(ClientConfig.class).revealContents.isActive()) return;
-        this.renderExpandedImage(font, mouseX, mouseY, poseStack, itemRenderer);
+        this.renderExpandedImage(font, mouseX, mouseY, guiGraphics);
     }
 
-    public abstract void renderExpandedImage(Font font, int mouseX, int mouseY, PoseStack poseStack, ItemRenderer itemRenderer);
+    public abstract void renderExpandedImage(Font font, int mouseX, int mouseY, GuiGraphics guiGraphics);
 }

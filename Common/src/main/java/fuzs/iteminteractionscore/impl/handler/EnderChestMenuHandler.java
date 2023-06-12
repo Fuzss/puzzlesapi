@@ -12,7 +12,7 @@ import java.util.Optional;
 public class EnderChestMenuHandler {
 
     public static void onLivingTick(Player player) {
-        if (player.level.isClientSide) return;
+        if (player.level().isClientSide) return;
         // vanilla only syncs ender chest contents to open ender chest menu, but not to Player::getEnderChestInventory
         // but since this is what we use for item interactions make sure to sync it
         if (player.containerMenu instanceof ChestMenu menu && menu.getContainer() == player.getEnderChestInventory()) {

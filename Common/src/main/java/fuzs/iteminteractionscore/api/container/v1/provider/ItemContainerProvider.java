@@ -118,7 +118,7 @@ public interface ItemContainerProvider {
      * @return is any item of the same type as <code>stackToAdd</code> already in the container
      */
     default boolean hasAnyOf(ItemStack containerStack, ItemStack stackToAdd, Player player) {
-        return this.getItemContainer(containerStack, player, false).hasAnyMatching(stack -> stack.sameItem(stackToAdd));
+        return this.getItemContainer(containerStack, player, false).hasAnyMatching(stack -> ItemStack.isSameItem(stack, stackToAdd));
     }
 
     /**

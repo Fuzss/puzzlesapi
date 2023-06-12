@@ -13,10 +13,7 @@ import fuzs.iteminteractionscore.impl.client.handler.MouseDraggingHandler;
 import fuzs.puzzleslib.api.client.core.v1.ClientModConstructor;
 import fuzs.puzzleslib.api.client.core.v1.context.ClientTooltipComponentsContext;
 import fuzs.puzzleslib.api.client.core.v1.context.KeyMappingsContext;
-import fuzs.puzzleslib.api.client.event.v1.ClientEntityLevelEvents;
-import fuzs.puzzleslib.api.client.event.v1.ScreenEvents;
-import fuzs.puzzleslib.api.client.event.v1.ScreenKeyboardEvents;
-import fuzs.puzzleslib.api.client.event.v1.ScreenMouseEvents;
+import fuzs.puzzleslib.api.client.event.v1.*;
 import fuzs.puzzleslib.api.event.v1.core.EventPhase;
 import fuzs.puzzleslib.api.event.v1.level.PlayLevelSoundEvents;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
@@ -31,15 +28,16 @@ public class ItemInteractionsCoreClient implements ClientModConstructor {
     private static void registerHandlers() {
         ClientEntityLevelEvents.LOAD.register(EnderChestMenuClientHandler::onEntityJoinLevel);
         ScreenMouseEvents.beforeMouseClick(AbstractContainerScreen.class).register(EventPhase.BEFORE, ClientInputActionHandler::onBeforeMousePressed);
-        ScreenMouseEvents.beforeMouseClick(AbstractContainerScreen.class).register(MouseDraggingHandler.INSTANCE::onBeforeMousePressed);
-        ScreenMouseEvents.beforeMouseRelease(AbstractContainerScreen.class).register(MouseDraggingHandler.INSTANCE::onBeforeMouseRelease);
+        ScreenMouseEvents.beforeMouseClick(AbstractContainerScreen.class).register(MouseDraggingHandler::onBeforeMousePressed);
+        ScreenMouseEvents.beforeMouseRelease(AbstractContainerScreen.class).register(MouseDraggingHandler::onBeforeMouseRelease);
         ScreenMouseEvents.beforeMouseRelease(AbstractContainerScreen.class).register(ClientInputActionHandler::onBeforeMouseRelease);
         ScreenMouseEvents.beforeMouseScroll(AbstractContainerScreen.class).register(EventPhase.BEFORE, ClientInputActionHandler::onBeforeMouseScroll);
-        ScreenMouseEvents.beforeMouseDrag(AbstractContainerScreen.class).register(MouseDraggingHandler.INSTANCE::onBeforeMouseDragged);
+        ScreenMouseEvents.beforeMouseDrag(AbstractContainerScreen.class).register(MouseDraggingHandler::onBeforeMouseDragged);
         ScreenKeyboardEvents.beforeKeyPress(AbstractContainerScreen.class).register(EventPhase.BEFORE, ClientInputActionHandler::onBeforeKeyPressed);
         ScreenKeyboardEvents.beforeKeyPress(AbstractContainerScreen.class).register(KeyBindingTogglesHandler::onBeforeKeyPressed);
         ScreenEvents.afterRender(AbstractContainerScreen.class).register(ClientInputActionHandler::onAfterRender);
-        PlayLevelSoundEvents.ENTITY.register(MouseDraggingHandler.INSTANCE::onPlaySoundAtPosition);
+        ContainerScreenEvents.FOREGROUND.register(MouseDraggingHandler::onDrawForeground);
+        PlayLevelSoundEvents.ENTITY.register(MouseDraggingHandler::onPlaySoundAtPosition);
         PlayLevelSoundEvents.ENTITY.register(ClientInputActionHandler::onPlaySoundAtPosition);
     }
 
