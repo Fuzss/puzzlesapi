@@ -4,6 +4,7 @@ import fuzs.puzzlesapi.api.client.iteminteractions.v1.tooltip.ClientContainerIte
 import fuzs.puzzlesapi.api.client.iteminteractions.v1.tooltip.ModClientBundleTooltip;
 import fuzs.puzzlesapi.api.iteminteractions.v1.tooltip.ContainerItemTooltip;
 import fuzs.puzzlesapi.api.iteminteractions.v1.tooltip.ModBundleTooltip;
+import fuzs.puzzlesapi.impl.iteminteractions.ItemInteractions;
 import fuzs.puzzlesapi.impl.iteminteractions.client.core.HeldActivationType;
 import fuzs.puzzlesapi.impl.iteminteractions.client.core.KeyMappingProvider;
 import fuzs.puzzlesapi.impl.iteminteractions.client.handler.ClientInputActionHandler;
@@ -17,6 +18,7 @@ import fuzs.puzzleslib.api.client.event.v1.*;
 import fuzs.puzzleslib.api.event.v1.core.EventPhase;
 import fuzs.puzzleslib.api.event.v1.level.PlayLevelSoundEvents;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
+import net.minecraft.resources.ResourceLocation;
 
 public class ItemInteractionsClient implements ClientModConstructor {
 
@@ -50,5 +52,10 @@ public class ItemInteractionsClient implements ClientModConstructor {
     public void onRegisterClientTooltipComponents(ClientTooltipComponentsContext context) {
         context.registerClientTooltipComponent(ContainerItemTooltip.class, ClientContainerItemTooltip::new);
         context.registerClientTooltipComponent(ModBundleTooltip.class, ModClientBundleTooltip::new);
+    }
+
+    @Override
+    public ResourceLocation getPairingIdentifier() {
+        return ItemInteractions.id("iteminteractions");
     }
 }

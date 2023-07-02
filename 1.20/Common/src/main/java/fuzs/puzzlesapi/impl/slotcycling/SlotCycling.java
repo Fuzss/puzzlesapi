@@ -15,6 +15,11 @@ public class SlotCycling implements ModConstructor {
     public static final ConfigHolder CONFIG = ConfigHolder.builder(MOD_ID).client(ClientConfig.class)
             .setFileName(ClientConfig.class, modId -> modId + "-slotcycling-client.toml");
 
+    @Override
+    public ResourceLocation getPairingIdentifier() {
+        return id("slotcycling");
+    }
+
     public static ResourceLocation id(String path) {
         return new ResourceLocation(MOD_ID, path);
     }
