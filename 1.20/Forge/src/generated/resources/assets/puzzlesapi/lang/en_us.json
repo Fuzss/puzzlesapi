@@ -1,0 +1,11 @@
+{
+  "item.container.tooltip.hold": "Hold",
+  "item.container.tooltip.press": "Press",
+  "item.container.tooltip.revealContents": "%s %s to reveal contents",
+  "key.categories.puzzlesapi": "Puzzles Api",
+  "key.cycleLeft": "Cycle Hotbar Slot Left",
+  "key.cycleRight": "Cycle Hotbar Slot Right",
+  "key.toggleCarriedItemTooltips": "Toggle Carried Item Tooltips",
+  "key.toggleSelectedItemTooltips": "Toggle Selected Item Tooltips",
+  "key.toggleVisualItemContents": "Toggle Visual Item Contents"
+}

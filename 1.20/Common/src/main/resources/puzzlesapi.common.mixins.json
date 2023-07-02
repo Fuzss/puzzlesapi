@@ -1,0 +1,24 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "compatibilityLevel": "JAVA_17",
+  "package": "fuzs.puzzlesapi.mixin",
+  "refmap": "puzzlesapi.refmap.json",
+  "plugin": "fuzs.puzzlesapi.mixin.ModMixinConfigPlugin",
+  "mixins": [
+    "iteminteractions.ItemStackMixin",
+    "iteminteractions.accessor.BundleItemAccessor"
+  ],
+  "client": [
+    "iteminteractions.client.AbstractContainerScreenMixin",
+    "iteminteractions.client.GuiGraphicsMixin",
+    "iteminteractions.client.MultiPlayerGameModeMixin",
+    "iteminteractions.client.accessor.AbstractContainerMenuAccessor",
+    "iteminteractions.client.accessor.AbstractContainerScreenAccessor",
+    "slotcycling.client.accessor.ItemInHandRendererAccessor",
+    "slotcycling.client.accessor.MouseHandlerAccessor"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
