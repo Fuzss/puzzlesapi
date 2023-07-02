@@ -5,7 +5,6 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import fuzs.puzzlesapi.api.iteminteractions.v1.ItemContainerProviderSerializers;
 import fuzs.puzzlesapi.api.iteminteractions.v1.provider.ItemContainerProvider;
-import fuzs.puzzlesapi.impl.PuzzlesApi;
 import fuzs.puzzlesapi.impl.iteminteractions.ItemInteractions;
 import fuzs.puzzlesapi.impl.iteminteractions.network.S2CSyncItemContainerProvider;
 import fuzs.puzzleslib.api.config.v3.json.JsonConfigFileUtil;
@@ -55,7 +54,7 @@ public class ItemContainerProviders extends SimpleJsonResourceReloadListener {
                 ItemContainerProvider provider = ItemContainerProviderSerializers.deserialize(jsonObject);
                 builder.put(BuiltInRegistries.ITEM.get(item), new ForwardingItemContainerProvider(provider));
             } catch (Exception e) {
-                PuzzlesApi.LOGGER.error("Couldn't parse item container provider {}", item, e);
+                ItemInteractions.LOGGER.error("Couldn't parse item container provider {}", item, e);
             }
         }
         this.providers = builder.build();

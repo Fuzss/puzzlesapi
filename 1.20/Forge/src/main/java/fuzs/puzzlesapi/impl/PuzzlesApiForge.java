@@ -1,10 +1,11 @@
 package fuzs.puzzlesapi.impl;
 
+import fuzs.puzzlesapi.impl.data.ModLanguageProvider;
 import fuzs.puzzlesapi.impl.iteminteractions.ItemInteractions;
 import fuzs.puzzlesapi.impl.iteminteractions.capability.ContainerClientInputCapability;
 import fuzs.puzzlesapi.impl.iteminteractions.capability.EnderChestMenuCapability;
-import fuzs.puzzlesapi.impl.data.ModLanguageProvider;
 import fuzs.puzzlesapi.impl.iteminteractions.init.ModRegistry;
+import fuzs.puzzlesapi.impl.limitlesscontainers.LimitlessContainers;
 import fuzs.puzzlesapi.impl.slotcycling.SlotCycling;
 import fuzs.puzzleslib.api.capability.v2.ForgeCapabilityHelper;
 import fuzs.puzzleslib.api.core.v1.ModConstructor;
@@ -28,6 +29,7 @@ public class PuzzlesApiForge {
     public static void onConstructMod(final FMLConstructModEvent evt) {
         ModConstructor.construct(PuzzlesApi.MOD_ID, ItemInteractions::new);
         ModConstructor.construct(PuzzlesApi.MOD_ID, SlotCycling::new);
+        ModConstructor.construct(PuzzlesApi.MOD_ID, LimitlessContainers::new);
         registerCapabilities();
     }
 

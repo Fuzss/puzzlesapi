@@ -19,10 +19,16 @@ import fuzs.puzzleslib.api.event.v1.entity.player.PlayerTickEvents;
 import fuzs.puzzleslib.api.event.v1.server.SyncDataPackContentsCallback;
 import fuzs.puzzleslib.api.network.v2.MessageDirection;
 import fuzs.puzzleslib.api.network.v2.NetworkHandlerV2;
+import net.minecraft.resources.ResourceLocation;
+import org.slf4j.Logger;
 
 public class ItemInteractions implements ModConstructor {
-    public static final NetworkHandlerV2 NETWORK = NetworkHandlerV2.build(PuzzlesApi.MOD_ID);
-    public static final ConfigHolder CONFIG = ConfigHolder.builder(PuzzlesApi.MOD_ID).client(ClientConfig.class).server(ServerConfig.class)
+    public static final String MOD_ID = PuzzlesApi.MOD_ID;
+    public static final String MOD_NAME = PuzzlesApi.MOD_NAME;
+    public static final Logger LOGGER = PuzzlesApi.LOGGER;
+
+    public static final NetworkHandlerV2 NETWORK = NetworkHandlerV2.build(MOD_ID);
+    public static final ConfigHolder CONFIG = ConfigHolder.builder(MOD_ID).client(ClientConfig.class).server(ServerConfig.class)
             .setFileName(ClientConfig.class, modId -> modId + "-iteminteractions-client.toml")
             .setFileName(ServerConfig.class, modId -> modId + "-iteminteractions-server.toml");
 
@@ -50,5 +56,9 @@ public class ItemInteractions implements ModConstructor {
     @Override
     public void onRegisterDataPackReloadListeners(AddReloadListenersContext context) {
         context.registerReloadListener(ItemContainerProviders.ITEM_CONTAINER_PROVIDERS_KEY, ItemContainerProviders.INSTANCE);
+    }
+
+    public static ResourceLocation id(String path) {
+        return new ResourceLocation(MOD_ID, path);
     }
 }

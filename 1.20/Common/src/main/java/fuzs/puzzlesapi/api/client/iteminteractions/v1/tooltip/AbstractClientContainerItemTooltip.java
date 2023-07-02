@@ -1,7 +1,6 @@
 package fuzs.puzzlesapi.api.client.iteminteractions.v1.tooltip;
 
 import com.mojang.blaze3d.systems.RenderSystem;
-import fuzs.puzzlesapi.impl.PuzzlesApi;
 import fuzs.puzzlesapi.impl.iteminteractions.ItemInteractions;
 import fuzs.puzzlesapi.impl.iteminteractions.client.handler.ClientInputActionHandler;
 import fuzs.puzzlesapi.impl.iteminteractions.config.ClientConfig;
@@ -25,7 +24,7 @@ import java.util.Optional;
 
 public abstract class AbstractClientContainerItemTooltip extends ExpandableClientTooltipComponent {
     public static final ResourceLocation WIDGETS_LOCATION = new ResourceLocation("textures/gui/widgets.png");
-    public static final ResourceLocation TEXTURE_LOCATION = PuzzlesApi.id("textures/gui/container/inventory_tooltip.png");
+    public static final ResourceLocation TEXTURE_LOCATION = ItemInteractions.id("textures/gui/container/inventory_tooltip.png");
     private static final int BORDER_SIZE = 7;
     private static final MutableInt ACTIVE_CONTAINER_ITEM_TOOLTIPS = new MutableInt();
 

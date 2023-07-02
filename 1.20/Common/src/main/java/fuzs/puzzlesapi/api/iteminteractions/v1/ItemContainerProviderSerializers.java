@@ -3,8 +3,7 @@ package fuzs.puzzlesapi.api.iteminteractions.v1;
 import com.google.common.collect.Maps;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import fuzs.puzzlesapi.api.iteminteractions.v1.provider.*;
-import fuzs.puzzlesapi.impl.PuzzlesApi;
+import fuzs.puzzlesapi.api.iteminteractions.v1.provider.ItemContainerProvider;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.GsonHelper;
 
@@ -59,14 +58,6 @@ public class ItemContainerProviderSerializers {
         Serializer serializer = SERIALIZERS_BY_ID.get(identifier);
         Objects.requireNonNull(serializer, "no serializer registered for identifier %s".formatted(identifier));
         return serializer.deserializer().apply(jsonObject);
-    }
-    
-    static {
-        register(BlockEntityProvider.class, PuzzlesApi.id("block_entity"), ItemContainerProviderBuilder.fromJson(ItemContainerProviderBuilder::toBlockEntityProvider));
-        register(BlockEntityViewProvider.class, PuzzlesApi.id("block_entity_view"), ItemContainerProviderBuilder.fromJson(ItemContainerProviderBuilder::toBlockEntityViewProvider));
-        register(BundleProvider.class, PuzzlesApi.id("bundle"), ItemContainerProviderBuilder.fromJson(ItemContainerProviderBuilder::toBundleProvider));
-        register(SimpleItemProvider.class, PuzzlesApi.id("item"), ItemContainerProviderBuilder.fromJson(ItemContainerProviderBuilder::toSimpleItemContainerProvider));
-        register(EnderChestProvider.class, PuzzlesApi.id("ender_chest"), ItemContainerProviderBuilder.fromJson(ItemContainerProviderBuilder::toEnderChestProvider));
     }
 
     private record Serializer(Class<? extends ItemContainerProvider> clazz, ResourceLocation id,

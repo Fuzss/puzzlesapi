@@ -1,7 +1,7 @@
 package fuzs.puzzlesapi.impl.iteminteractions.client.core;
 
 import com.mojang.blaze3d.platform.InputConstants;
-import fuzs.puzzlesapi.impl.PuzzlesApi;
+import fuzs.puzzlesapi.impl.iteminteractions.ItemInteractions;
 import fuzs.puzzleslib.api.client.core.v1.ClientAbstractions;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.KeyMapping;
@@ -15,7 +15,7 @@ public class KeyBackedActivationType extends HeldActivationType implements KeyMa
 
     public KeyBackedActivationType(String id) {
         super(id);
-        this.keyMapping = new KeyMapping("key." + id, InputConstants.UNKNOWN.getValue(), "key.categories." + PuzzlesApi.MOD_ID);
+        this.keyMapping = new KeyMapping("key." + id, InputConstants.UNKNOWN.getValue(), "key.categories." + ItemInteractions.MOD_ID);
     }
 
     @Override

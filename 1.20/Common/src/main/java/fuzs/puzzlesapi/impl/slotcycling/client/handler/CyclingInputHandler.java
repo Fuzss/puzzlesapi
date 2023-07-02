@@ -3,7 +3,6 @@ package fuzs.puzzlesapi.impl.slotcycling.client.handler;
 import com.mojang.blaze3d.platform.InputConstants;
 import fuzs.puzzlesapi.api.client.slotcycling.v1.ItemCyclingProvider;
 import fuzs.puzzlesapi.api.client.slotcycling.v1.SlotCyclingProvider;
-import fuzs.puzzlesapi.impl.PuzzlesApi;
 import fuzs.puzzlesapi.impl.slotcycling.SlotCycling;
 import fuzs.puzzlesapi.impl.slotcycling.config.ClientConfig;
 import fuzs.puzzlesapi.impl.slotcycling.config.ModifierKey;
@@ -21,8 +20,8 @@ import net.minecraft.world.item.ItemStack;
 import java.util.function.Predicate;
 
 public class CyclingInputHandler {
-    public static final KeyMapping CYCLE_LEFT_KEY_MAPPING = new KeyMapping("key.cycleLeft", InputConstants.KEY_G, "key.categories." + PuzzlesApi.MOD_ID);
-    public static final KeyMapping CYCLE_RIGHT_KEY_MAPPING = new KeyMapping("key.cycleRight", InputConstants.KEY_H, "key.categories." + PuzzlesApi.MOD_ID);
+    public static final KeyMapping CYCLE_LEFT_KEY_MAPPING = new KeyMapping("key.cycleLeft", InputConstants.KEY_G, "key.categories." + SlotCycling.MOD_ID);
+    public static final KeyMapping CYCLE_RIGHT_KEY_MAPPING = new KeyMapping("key.cycleRight", InputConstants.KEY_H, "key.categories." + SlotCycling.MOD_ID);
     private static final int DEFAULT_SLOTS_DISPLAY_TICKS = 15;
 
     private static int slotsDisplayTicks;

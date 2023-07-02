@@ -1,6 +1,6 @@
 package fuzs.puzzlesapi.impl.iteminteractions.network.client;
 
-import fuzs.puzzlesapi.impl.PuzzlesApi;
+import fuzs.puzzlesapi.impl.iteminteractions.ItemInteractions;
 import fuzs.puzzlesapi.impl.iteminteractions.world.inventory.ContainerSlotHelper;
 import fuzs.puzzleslib.api.network.v2.MessageV2;
 import net.minecraft.network.FriendlyByteBuf;
@@ -40,13 +40,13 @@ public class C2SContainerClientInputMessage implements MessageV2<C2SContainerCli
             public void handle(C2SContainerClientInputMessage message, Player player, Object gameInstance) {
                 AbstractContainerMenu containerMenu = player.containerMenu;
                 if (!containerMenu.stillValid(player)) {
-                    PuzzlesApi.LOGGER.debug("Player {} interacted with invalid menu {}", player, containerMenu);
+                    ItemInteractions.LOGGER.debug("Player {} interacted with invalid menu {}", player, containerMenu);
                     return;
                 }
                 if (message.currentSlot >= -1) {
                     ContainerSlotHelper.setCurrentContainerSlot(player, message.currentSlot);
                 } else {
-                    PuzzlesApi.LOGGER.warn("{} tried to set an invalid current container item slot", player);
+                    ItemInteractions.LOGGER.warn("{} tried to set an invalid current container item slot", player);
                 }
                 ContainerSlotHelper.extractSingleItem(player, message.extractSingleItem);
             }
