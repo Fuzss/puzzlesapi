@@ -20,4 +20,15 @@ public class MultipliedSimpleContainer extends SimpleContainer implements Multip
     public int getStackSizeMultiplier() {
         return this.stackSizeMultiplier;
     }
+
+    @Override
+    public boolean canAddItem(ItemStack stack) {
+        for (int i = 0; i < this.getContainerSize(); i++) {
+            ItemStack itemStack = this.getItem(i);
+            if (itemStack.isEmpty() || ItemStack.isSameItemSameTags(itemStack, stack) && itemStack.getCount() < LimitlessContainerUtils.getMaxStackSizeOrDefault(itemStack, this.getStackSizeMultiplier())) {
+                return true;
+            }
+        }
+        return false;
+    }
 }

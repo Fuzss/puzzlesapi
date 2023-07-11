@@ -1,5 +1,6 @@
 package fuzs.puzzlesapi.impl.iteminteractions.world.item.container;
 
+import fuzs.puzzlesapi.api.limitlesscontainers.v1.MultipliedContainer;
 import fuzs.puzzlesapi.impl.iteminteractions.world.inventory.ContainerSlotHelper;
 import fuzs.puzzlesapi.impl.iteminteractions.world.inventory.ItemMoveHelper;
 import net.minecraft.sounds.SoundEvents;
@@ -61,11 +62,12 @@ public class ItemInteractionHelper {
     }
 
     private static void handleRemoveItem(Supplier<SimpleContainer> containerSupplier, ItemStack stackOnMe, Player player, boolean extractSingleItemOnly, BiConsumer<ItemStack, Integer> addToSlot) {
+        SimpleContainer container = containerSupplier.get();
         ToIntFunction<ItemStack> amountToRemove = stack -> extractSingleItemOnly ? 1 : stack.getCount();
         Predicate<ItemStack> itemFilter = stackInSlot -> {
-            return stackOnMe.isEmpty() || (ItemStack.isSameItemSameTags(stackOnMe, stackInSlot) && stackOnMe.getCount() < stackOnMe.getMaxStackSize());
+            return stackOnMe.isEmpty() || (ItemStack.isSameItemSameTags(stackOnMe, stackInSlot) && stackOnMe.getCount() < (container instanceof MultipliedContainer multipliedContainer ? multipliedContainer.getMaxStackSize(stackOnMe) : stackOnMe.getMaxStackSize()));
         };
-        Pair<ItemStack, Integer> result = removeLastStack(containerSupplier, player, itemFilter, amountToRemove);
+        Pair<ItemStack, Integer> result = removeLastStack(container, player, itemFilter, amountToRemove);
         ItemStack stackToAdd = result.getLeft();
         if (!stackToAdd.isEmpty()) {
             addToSlot.accept(stackToAdd, result.getRight());
@@ -101,8 +103,7 @@ public class ItemInteractionHelper {
         return stackToAdd.getCount() - result.getLeft().getCount();
     }
 
-    private static Pair<ItemStack, Integer> removeLastStack(Supplier<SimpleContainer> containerSupplier, Player player, Predicate<ItemStack> itemFilter, ToIntFunction<ItemStack> amountToRemove) {
-        SimpleContainer container = containerSupplier.get();
+    private static Pair<ItemStack, Integer> removeLastStack(SimpleContainer container, Player player, Predicate<ItemStack> itemFilter, ToIntFunction<ItemStack> amountToRemove) {
         OptionalInt slotWithContent = findSlotWithContent(container, player, itemFilter, amountToRemove);
         if (slotWithContent.isPresent()) {
             int index = slotWithContent.getAsInt();

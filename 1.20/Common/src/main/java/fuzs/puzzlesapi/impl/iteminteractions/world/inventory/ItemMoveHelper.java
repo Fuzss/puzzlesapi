@@ -1,5 +1,6 @@
 package fuzs.puzzlesapi.impl.iteminteractions.world.inventory;
 
+import fuzs.puzzlesapi.api.limitlesscontainers.v1.MultipliedContainer;
 import net.minecraft.world.Container;
 import net.minecraft.world.item.ItemStack;
 import org.apache.commons.lang3.tuple.Pair;
@@ -66,7 +67,7 @@ public class ItemMoveHelper {
     }
 
     private static void moveItemsBetweenStacks(Container container, ItemStack stack, ItemStack other) {
-        int i = Math.min(container.getMaxStackSize(), other.getMaxStackSize());
+        int i = Math.min(container.getMaxStackSize(), container instanceof MultipliedContainer multipliedContainer ? multipliedContainer.getMaxStackSize(other) : other.getMaxStackSize());
         int j = Math.min(stack.getCount(), i - other.getCount());
         if (j > 0) {
             other.grow(j);
