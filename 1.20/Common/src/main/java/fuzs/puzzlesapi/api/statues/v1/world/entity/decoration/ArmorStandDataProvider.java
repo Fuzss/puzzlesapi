@@ -1,8 +1,6 @@
 package fuzs.puzzlesapi.api.statues.v1.world.entity.decoration;
 
-import fuzs.puzzlesapi.api.statues.v1.world.inventory.data.ArmorStandPose;
-import fuzs.puzzlesapi.api.statues.v1.world.inventory.data.ArmorStandScreenType;
-import fuzs.puzzlesapi.api.statues.v1.world.inventory.data.PosePartMutator;
+import fuzs.puzzlesapi.api.statues.v1.world.inventory.data.*;
 import net.minecraft.core.Rotations;
 
 public interface ArmorStandDataProvider {
@@ -21,6 +19,10 @@ public interface ArmorStandDataProvider {
     }
 
     default ArmorStandPose getRandomPose(boolean clampRotations) {
-        return ArmorStandPose.random(this.getPosePartMutators(), clampRotations).withBodyPose(new Rotations(0.0F, 0.0F, 0.0F));
+        return ArmorStandPose.randomize(this.getPosePartMutators(), clampRotations).withBodyPose(new Rotations(0.0F, 0.0F, 0.0F));
+    }
+
+    default ArmorStandStyleOption[] getStyleOptions() {
+        return ArmorStandStyleOptions.values();
     }
 }

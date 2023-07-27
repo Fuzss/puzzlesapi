@@ -5,6 +5,7 @@ import fuzs.puzzlesapi.api.statues.v1.world.inventory.ArmorStandMenu;
 import fuzs.puzzlesapi.mixin.statues.accessor.ArmorStandAccessor;
 import fuzs.puzzleslib.api.core.v1.CommonAbstractions;
 import fuzs.puzzleslib.api.core.v1.Proxy;
+import fuzs.puzzleslib.api.event.v1.core.EventResultHolder;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
@@ -19,18 +20,16 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.Optional;
-
 public class ArmorStandInteractHelper {
     public static final String OPEN_SCREEN_TRANSLATION_KEY = Items.ARMOR_STAND.getDescriptionId() + ".description";
 
-    public static Optional<InteractionResult> tryOpenArmorStatueMenu(Player player, Level level, InteractionHand interactionHand, ArmorStand entity, MenuType<?> menuType, @Nullable ArmorStandDataProvider dataProvider) {
+    public static EventResultHolder<InteractionResult> tryOpenArmorStatueMenu(Player player, Level level, InteractionHand interactionHand, ArmorStand entity, MenuType<?> menuType, @Nullable ArmorStandDataProvider dataProvider) {
         ItemStack itemInHand = player.getItemInHand(interactionHand);
         if (player.isShiftKeyDown() && itemInHand.isEmpty() && (!entity.isInvulnerable() || player.getAbilities().instabuild)) {
             openArmorStatueMenu(player, entity, menuType, dataProvider);
-            return Optional.of(InteractionResult.sidedSuccess(level.isClientSide));
+            return EventResultHolder.interrupt(InteractionResult.sidedSuccess(level.isClientSide));
         }
-        return Optional.empty();
+        return EventResultHolder.pass();
     }
 
     public static void openArmorStatueMenu(Player player, ArmorStand entity, MenuType<?> menuType, @Nullable ArmorStandDataProvider dataProvider) {

@@ -114,7 +114,7 @@ public class ArmorStandPositionScreen extends AbstractArmorStandPositionScreen {
             this.newValue.accept(toWrappedDegrees(newValue));
         }
 
-        protected static Component getTooltipComponent(double mouseValue) {
+        protected Component getTooltipComponent(double mouseValue) {
             return Component.translatable(DEGREES_TRANSLATION_KEY, ArmorStandPose.ROTATION_FORMAT.format(toWrappedDegrees(mouseValue)));
         }
 

@@ -1,5 +1,6 @@
 package fuzs.puzzlesapi.api.statues.v1.world.inventory.data;
 
+import com.google.common.collect.Lists;
 import fuzs.puzzlesapi.impl.statues.Statues;
 import fuzs.puzzlesapi.mixin.statues.accessor.ArmorStandAccessor;
 import net.minecraft.Util;
@@ -55,6 +56,7 @@ public class ArmorStandPose {
     public static final ArmorStandPose JOYOUS = new ArmorStandPose("joyous", VANILLA_TWEAKS_SOURCE).withHeadPose(new Rotations(-11.0f,0.0f,0.0f)).withBodyPose(new Rotations(-4.0f,0.0f,0.0f)).withRightArmPose(new Rotations(0.0f,0.0f,100.0f)).withLeftArmPose(new Rotations(0.0f,0.0f,-100.0f)).withRightLegPose(new Rotations(-8.0f,0.0f,60.0f)).withLeftLegPose(new Rotations(-8.0f,0.0f,-60.0f));
     public static final ArmorStandPose STARGAZING = new ArmorStandPose("stargazing", VANILLA_TWEAKS_SOURCE).withHeadPose(new Rotations(-22.0f,25.0f,0.0f)).withBodyPose(new Rotations(-4.0f,10.0f,0.0f)).withRightArmPose(new Rotations(-153.0f,34.0f,-3.0f)).withLeftArmPose(new Rotations(4.0f,18.0f,0.0f)).withRightLegPose(new Rotations(-4.0f,17.0f,2.0f)).withLeftLegPose(new Rotations(6.0f,24.0f,0.0f));
     private static final ArmorStandPose[] VALUES = {DEFAULT, SOLEMN, ATHENA, BRANDISH, HONOR, ENTERTAIN, SALUTE, HERO, RIPOSTE, ZOMBIE, CANCAN, WALKING, RUNNING, POINTING, BLOCKING, LUNGEING, WINNING, SITTING, ARABESQUE, CUPID, CONFIDENT, DEATH, FACEPALM, LAZING, CONFUSED, FORMAL, SAD, JOYOUS, STARGAZING};
+    private static final ArmorStandPose[] VALUES_FOR_RANDOM_SELECTION = {DEFAULT, SOLEMN, ATHENA, BRANDISH, HONOR, ENTERTAIN, SALUTE, HERO, RIPOSTE, ZOMBIE, CANCAN, WALKING, RUNNING, POINTING, BLOCKING, LUNGEING, WINNING, ARABESQUE, CUPID, CONFIDENT, FACEPALM, CONFUSED, FORMAL, SAD, JOYOUS, STARGAZING};
 
     @Nullable
     private final String name;
@@ -259,7 +261,7 @@ public class ArmorStandPose {
         ((ArmorStandAccessor) armorStand).puzzlesapi$callReadPose(tag);
     }
 
-    public static ArmorStandPose random(PosePartMutator[] mutators, boolean clampRotations) {
+    public static ArmorStandPose randomize(PosePartMutator[] mutators, boolean clampRotations) {
         checkMutatorsSize(mutators);
         return new ArmorStandPose(null, null, mutators[0].randomRotations(clampRotations), mutators[1].randomRotations(clampRotations), mutators[2].randomRotations(clampRotations), mutators[3].randomRotations(clampRotations), mutators[4].randomRotations(clampRotations), mutators[5].randomRotations(clampRotations));
     }
@@ -273,7 +275,8 @@ public class ArmorStandPose {
     }
 
     public static ArmorStandPose randomValue() {
-        List<ArmorStandPose> poses = Arrays.asList(VALUES);
+        // don't use Arrays::asList, it will affect the backing array
+        List<ArmorStandPose> poses = Lists.newArrayList(VALUES_FOR_RANDOM_SELECTION);
         Collections.shuffle(poses);
         return poses.stream().findAny().orElseThrow();
     }

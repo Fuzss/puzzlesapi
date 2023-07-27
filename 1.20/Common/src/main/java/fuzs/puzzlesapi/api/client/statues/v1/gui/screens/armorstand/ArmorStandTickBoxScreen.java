@@ -1,5 +1,6 @@
 package fuzs.puzzlesapi.api.client.statues.v1.gui.screens.armorstand;
 
+import com.mojang.blaze3d.platform.InputConstants;
 import fuzs.puzzlesapi.api.statues.v1.network.client.data.DataSyncHandler;
 import fuzs.puzzlesapi.api.statues.v1.world.inventory.ArmorStandHolder;
 import net.minecraft.client.Minecraft;
@@ -48,7 +49,7 @@ public abstract class ArmorStandTickBoxScreen<T> extends AbstractArmorStandScree
     protected void init() {
         super.init();
         this.name = new EditBox(this.font, this.leftPos + 16, this.topPos + 32, 66, 9, EntityType.ARMOR_STAND.getDescription());
-        this.name.setTextColor(16777215);
+        this.name.setTextColor(0xFFFFFF);
         this.name.setBordered(false);
         this.name.setMaxLength(this.getNameMaxLength());
         this.name.setValue(this.getNameDefaultValue());
@@ -95,7 +96,7 @@ public abstract class ArmorStandTickBoxScreen<T> extends AbstractArmorStandScree
 
     @Override
     public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
-        if (keyCode == 256 && this.shouldCloseOnEsc()) {
+        if (keyCode == InputConstants.KEY_ESCAPE && this.shouldCloseOnEsc()) {
             this.onClose();
             return true;
         }

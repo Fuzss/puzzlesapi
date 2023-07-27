@@ -24,7 +24,7 @@ public class ArmorStandStyleScreen extends ArmorStandTickBoxScreen<ArmorStandSty
 
     @Override
     protected ArmorStandStyleOption[] getAllTickBoxValues() {
-        return Stream.of(ArmorStandStyleOptions.values())
+        return Stream.of(this.holder.getDataProvider().getStyleOptions())
                 .filter(option -> option.allowChanges(this.minecraft.player))
                 .toArray(ArmorStandStyleOption[]::new);
     }

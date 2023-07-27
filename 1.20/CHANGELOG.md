@@ -3,6 +3,10 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog].
 
+## [v8.1.1-1.20.1] - 2023-07-27
+### Fixed
+- Minor things from 1.20 port
+
 ## [v8.1.0-1.20.1] - 2023-07-27
 ### Added
 - Added shared api for statues mods
