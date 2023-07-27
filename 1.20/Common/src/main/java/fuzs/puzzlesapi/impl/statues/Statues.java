@@ -5,16 +5,12 @@ import fuzs.puzzlesapi.api.statues.v1.world.inventory.data.ArmorStandStyleOption
 import fuzs.puzzlesapi.impl.PuzzlesApi;
 import fuzs.puzzlesapi.impl.statues.network.client.*;
 import fuzs.puzzleslib.api.core.v1.ModConstructor;
-import fuzs.puzzleslib.api.event.v1.core.EventResultHolder;
-import fuzs.puzzleslib.api.event.v1.entity.player.PlayerInteractEvents;
 import fuzs.puzzleslib.api.network.v2.MessageDirection;
 import fuzs.puzzleslib.api.network.v2.NetworkHandlerV2;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.InteractionResult;
 import org.slf4j.Logger;
 
 import java.util.Locale;
-import java.util.Optional;
 
 public class Statues implements ModConstructor {
     public static final String MOD_ID = PuzzlesApi.MOD_ID;
@@ -25,11 +21,6 @@ public class Statues implements ModConstructor {
 
     @Override
     public void onConstructMod() {
-        PlayerInteractEvents.USE_ENTITY_AT.register((player, level, interactionHand, target, hitVector) -> {
-            Optional<InteractionResult> result = ArmorStandInteractHandler.onUseEntityAt(player, level, interactionHand, target, hitVector);
-            return result.map(EventResultHolder::interrupt).orElse(EventResultHolder.pass());
-        });
-        ModRegistry.touch();
         registerMessages();
     }
 
