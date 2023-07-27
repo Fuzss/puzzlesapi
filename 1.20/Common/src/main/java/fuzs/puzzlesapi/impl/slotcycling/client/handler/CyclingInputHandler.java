@@ -31,7 +31,7 @@ public class CyclingInputHandler {
         Minecraft minecraft = Minecraft.getInstance();
         Player player = minecraft.player;
         if (!player.isSpectator() && SlotCycling.CONFIG.get(ClientConfig.class).scrollingModifierKey.isActive()) {
-            double totalScroll = verticalAmount + ((MouseHandlerAccessor) minecraft.mouseHandler).essentialpotions$getAccumulatedScroll();
+            double totalScroll = verticalAmount + ((MouseHandlerAccessor) minecraft.mouseHandler).slotcycling$getAccumulatedScroll();
             if (totalScroll > 0.0) {
                 cycleSlot(minecraft, player, SlotCyclingProvider::cycleSlotBackward);
             } else if (totalScroll < 0.0) {
@@ -96,9 +96,9 @@ public class CyclingInputHandler {
         // force the reequip animation for the new held item
         ItemInHandRenderer itemInHandRenderer = minecraft.gameRenderer.itemInHandRenderer;
         if (interactionHand == InteractionHand.OFF_HAND) {
-            ((ItemInHandRendererAccessor) itemInHandRenderer).essentialpotions$setOffHandItem(ItemStack.EMPTY);
+            ((ItemInHandRendererAccessor) itemInHandRenderer).puzzlesapi$setOffHandItem(ItemStack.EMPTY);
         } else {
-            ((ItemInHandRendererAccessor) itemInHandRenderer).essentialpotions$setMainHandItem(ItemStack.EMPTY);
+            ((ItemInHandRendererAccessor) itemInHandRenderer).puzzlesapi$setMainHandItem(ItemStack.EMPTY);
         }
     }
 

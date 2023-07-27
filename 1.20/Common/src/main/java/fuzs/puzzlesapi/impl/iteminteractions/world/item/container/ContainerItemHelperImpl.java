@@ -42,7 +42,7 @@ public class ContainerItemHelperImpl implements ContainerItemHelper {
 
     @Override
     public int getItemWeight(ItemStack stack) {
-        return BundleItemAccessor.easyshulkerboxes$getWeight(stack);
+        return BundleItemAccessor.puzzlesapi$getWeight(stack);
     }
 
     @Override

@@ -57,7 +57,7 @@ public class ClientInputActionHandler {
         // prevent vanilla double click feature from interfering with our precision mode, adding an unnecessary delay when quickly inserting items via left-click
         // it wouldn't work anyway, and right-click is fine, leading to inconsistent behavior
         if (precisionModeAllowedAndActive() && !getContainerStack(screen, false).isEmpty()) {
-            ((AbstractContainerScreenAccessor) screen).easyshulkerboxes$setDoubleclick(false);
+            ((AbstractContainerScreenAccessor) screen).puzzlesapi$setDoubleclick(false);
         }
         return EventResult.PASS;
     }
@@ -83,7 +83,7 @@ public class ClientInputActionHandler {
             if (slot != null) {
                 if (ItemContainerProviders.INSTANCE.get(screen.getMenu().getCarried()) != null || ItemContainerProviders.INSTANCE.get(slot.getItem()) != null) {
                     int mouseButton = (ItemInteractions.CONFIG.get(ClientConfig.class).invertPrecisionModeScrolling ? verticalAmount < 0.0 : verticalAmount > 0.0) ? InputConstants.MOUSE_BUTTON_RIGHT : InputConstants.MOUSE_BUTTON_LEFT;
-                    ((AbstractContainerScreenAccessor) screen).easyshulkerboxes$callSlotClicked(slot, slot.index, mouseButton, ClickType.PICKUP);
+                    ((AbstractContainerScreenAccessor) screen).puzzlesapi$callSlotClicked(slot, slot.index, mouseButton, ClickType.PICKUP);
                     return EventResult.INTERRUPT;
                 }
             }

@@ -9,5 +9,5 @@ import org.spongepowered.asm.mixin.gen.Accessor;
 public interface AbstractContainerMenuAccessor {
 
     @Accessor("menuType")
-    MenuType<?> easyshulkerboxes$getMenuType();
+    MenuType<?> puzzlesapi$getMenuType();
 }

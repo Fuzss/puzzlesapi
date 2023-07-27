@@ -7,7 +7,9 @@
   "plugin": "fuzs.puzzlesapi.mixin.ModMixinConfigPlugin",
   "mixins": [
     "iteminteractions.ItemStackMixin",
-    "iteminteractions.accessor.BundleItemAccessor"
+    "iteminteractions.accessor.BundleItemAccessor",
+    "statues.accessor.ArmorStandAccessor",
+    "statues.accessor.SimpleContainerAccessor"
   ],
   "client": [
     "iteminteractions.client.AbstractContainerScreenMixin",

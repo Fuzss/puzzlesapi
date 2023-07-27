@@ -68,7 +68,7 @@ public class ItemDecorationHelper {
         // stupid hack to filter out creative mode inventory slots, as the slot class is client-only and package private (if not package private proxy would've worked)
         // also cannot use vanilla getter here as it throws an exception when menu type is null which is exactly what we want
         // accessor is definitely more performant than catching the exception, especially as this is called in rendering code
-        if (((AbstractContainerMenuAccessor) menu).easyshulkerboxes$getMenuType() == null) {
+        if (((AbstractContainerMenuAccessor) menu).puzzlesapi$getMenuType() == null) {
             // Scout mod uses slots with null container apparently
             if (slot.getClass() != Slot.class && slot.container != null) {
                 return slot.container.getContainerSize() == 45;

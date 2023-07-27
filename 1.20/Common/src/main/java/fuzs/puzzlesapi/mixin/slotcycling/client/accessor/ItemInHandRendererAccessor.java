@@ -9,8 +9,8 @@ import org.spongepowered.asm.mixin.gen.Accessor;
 public interface ItemInHandRendererAccessor {
 
     @Accessor("mainHandItem")
-    void essentialpotions$setMainHandItem(ItemStack mainHandItem);
+    void puzzlesapi$setMainHandItem(ItemStack mainHandItem);
 
     @Accessor("offHandItem")
-    void essentialpotions$setOffHandItem(ItemStack offHandItem);
+    void puzzlesapi$setOffHandItem(ItemStack offHandItem);
 }

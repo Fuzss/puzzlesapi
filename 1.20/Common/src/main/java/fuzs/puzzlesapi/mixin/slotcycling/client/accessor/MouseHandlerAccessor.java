@@ -8,5 +8,5 @@ import org.spongepowered.asm.mixin.gen.Accessor;
 public interface MouseHandlerAccessor {
 
     @Accessor("accumulatedScroll")
-    double essentialpotions$getAccumulatedScroll();
+    double slotcycling$getAccumulatedScroll();
 }

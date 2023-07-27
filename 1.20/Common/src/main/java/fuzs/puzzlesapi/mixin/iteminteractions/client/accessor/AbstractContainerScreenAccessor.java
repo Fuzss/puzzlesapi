@@ -11,11 +11,11 @@ import org.spongepowered.asm.mixin.gen.Invoker;
 public interface AbstractContainerScreenAccessor {
 
     @Invoker("findSlot")
-    Slot easyshulkerboxes$callFindSlot(double mouseX, double mouseY);
+    Slot puzzlesapi$callFindSlot(double mouseX, double mouseY);
 
     @Invoker("slotClicked")
-    void easyshulkerboxes$callSlotClicked(Slot slot, int slotId, int mouseButton, ClickType type);
+    void puzzlesapi$callSlotClicked(Slot slot, int slotId, int mouseButton, ClickType type);
 
     @Accessor("doubleclick")
-    void easyshulkerboxes$setDoubleclick(boolean doubleclick);
+    void puzzlesapi$setDoubleclick(boolean doubleclick);
 }

@@ -44,7 +44,7 @@ public class MouseDraggingHandler {
         ItemContainerProvider provider = ItemContainerProviders.INSTANCE.get(carriedStack);
         Minecraft minecraft = ScreenHelper.INSTANCE.getMinecraft(screen);
         if (validMouseButton(button) && provider != null && provider.allowsPlayerInteractions(carriedStack, minecraft.player)) {
-            Slot slot = ((AbstractContainerScreenAccessor) screen).easyshulkerboxes$callFindSlot(mouseX, mouseY);
+            Slot slot = ((AbstractContainerScreenAccessor) screen).puzzlesapi$callFindSlot(mouseX, mouseY);
             if (slot != null) {
                 if (slot.hasItem() && !ClientInputActionHandler.precisionModeAllowedAndActive()) {
                     containerDragType = ContainerDragType.INSERT;
@@ -67,7 +67,7 @@ public class MouseDraggingHandler {
                 CONTAINER_DRAG_SLOTS.clear();
                 return EventResult.PASS;
             }
-            Slot slot = ((AbstractContainerScreenAccessor) screen).easyshulkerboxes$callFindSlot(mouseX, mouseY);
+            Slot slot = ((AbstractContainerScreenAccessor) screen).puzzlesapi$callFindSlot(mouseX, mouseY);
             AbstractContainerMenu menu = ((AbstractContainerScreen<?>) screen).getMenu();
             if (slot != null && menu.canDragTo(slot) && !CONTAINER_DRAG_SLOTS.contains(slot)) {
                 ItemStack carriedStack = menu.getCarried();
@@ -84,7 +84,7 @@ public class MouseDraggingHandler {
                     }
                 }
                 if (interact) {
-                    ((AbstractContainerScreenAccessor) screen).easyshulkerboxes$callSlotClicked(slot, slot.index, button, ClickType.PICKUP);
+                    ((AbstractContainerScreenAccessor) screen).puzzlesapi$callSlotClicked(slot, slot.index, button, ClickType.PICKUP);
                     CONTAINER_DRAG_SLOTS.add(slot);
                     return EventResult.INTERRUPT;
                 }
