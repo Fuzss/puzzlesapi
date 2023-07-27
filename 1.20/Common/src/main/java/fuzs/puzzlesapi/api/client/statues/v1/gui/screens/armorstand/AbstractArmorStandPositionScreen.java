@@ -47,7 +47,7 @@ public abstract class AbstractArmorStandPositionScreen extends ArmorStandWidgets
                 Vec3 newPosition = AbstractArmorStandPositionScreen.this.holder.getArmorStand().position().align(EnumSet.allOf(Direction.Axis.class));
                 AbstractArmorStandPositionScreen.this.dataSyncHandler.sendPosition(newPosition.x(), newPosition.y(), newPosition.z());
             })), widget -> {
-                widget.setTooltip(Tooltip.create(Component.translatable(CORNERED_TRANSLATION_KEY)));
+                widget.setTooltip(Tooltip.create(Component.translatable(CORNERED_DESCRIPTION_TRANSLATION_KEY)));
             }));
         }
     }

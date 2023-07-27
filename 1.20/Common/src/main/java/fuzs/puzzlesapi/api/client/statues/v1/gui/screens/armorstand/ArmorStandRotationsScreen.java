@@ -21,6 +21,7 @@ import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.client.gui.components.events.GuiEventListener;
 import net.minecraft.client.gui.navigation.FocusNavigationEvent;
 import net.minecraft.client.gui.screens.inventory.tooltip.ClientTooltipPositioner;
+import net.minecraft.client.gui.screens.inventory.tooltip.DefaultTooltipPositioner;
 import net.minecraft.client.gui.screens.inventory.tooltip.MenuTooltipPositioner;
 import net.minecraft.locale.Language;
 import net.minecraft.network.chat.CommonComponents;
@@ -139,7 +140,7 @@ public class ArmorStandRotationsScreen extends AbstractArmorStandScreen {
                     if (tooltipPositioner instanceof MenuTooltipPositioner) {
                         return (screenWidth, screenHeight, mouseX, mouseY, tooltipWidth, tooltipHeight) -> {
                             if (isLeft) mouseX -= 24 + tooltipWidth;
-                            return tooltipPositioner.positionTooltip(screenWidth, screenHeight, mouseX, mouseY, tooltipWidth, tooltipHeight);
+                            return DefaultTooltipPositioner.INSTANCE.positionTooltip(screenWidth, screenHeight, mouseX, mouseY, tooltipWidth, tooltipHeight);
                         };
                     }
                     return tooltipPositioner;
@@ -189,7 +190,7 @@ public class ArmorStandRotationsScreen extends AbstractArmorStandScreen {
                     if (tooltipPositioner instanceof MenuTooltipPositioner) {
                         return (screenWidth, screenHeight, mouseX, mouseY, tooltipWidth, tooltipHeight) -> {
                             if (isLeft) mouseX -= 24 + tooltipWidth;
-                            return tooltipPositioner.positionTooltip(screenWidth, screenHeight, mouseX, mouseY, tooltipWidth, tooltipHeight);
+                            return DefaultTooltipPositioner.INSTANCE.positionTooltip(screenWidth, screenHeight, mouseX, mouseY, tooltipWidth, tooltipHeight);
                         };
                     }
                     return tooltipPositioner;
