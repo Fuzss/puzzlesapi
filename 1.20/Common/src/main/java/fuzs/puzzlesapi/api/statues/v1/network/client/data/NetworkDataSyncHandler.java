@@ -2,7 +2,6 @@ package fuzs.puzzlesapi.api.statues.v1.network.client.data;
 
 import fuzs.puzzlesapi.api.statues.v1.world.inventory.ArmorStandHolder;
 import fuzs.puzzlesapi.api.statues.v1.world.inventory.data.ArmorStandPose;
-import fuzs.puzzlesapi.api.statues.v1.world.inventory.data.ArmorStandScreenType;
 import fuzs.puzzlesapi.api.statues.v1.world.inventory.data.ArmorStandStyleOption;
 import fuzs.puzzlesapi.impl.statues.Statues;
 import fuzs.puzzlesapi.impl.statues.network.client.*;
@@ -48,10 +47,5 @@ public class NetworkDataSyncHandler implements DataSyncHandler {
     public void sendStyleOption(ArmorStandStyleOption styleOption, boolean value) {
         styleOption.setOption(this.getArmorStand(), value);
         Statues.NETWORK.sendToServer(new C2SArmorStandStyleMessage(styleOption, value));
-    }
-
-    @Override
-    public ArmorStandScreenType[] tabs() {
-        return this.getArmorStandHolder().getDataProvider().getScreenTypes();
     }
 }

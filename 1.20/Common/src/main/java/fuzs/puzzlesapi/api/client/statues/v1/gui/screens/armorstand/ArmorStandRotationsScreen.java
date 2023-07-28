@@ -115,7 +115,6 @@ public class ArmorStandRotationsScreen extends AbstractArmorStandScreen {
             widget.setTooltip(Tooltip.create(Component.translatable(PASTE_TRANSLATION_KEY)));
             widget.active = clipboard != null;
         });
-        ArmorStand armorStand = this.holder.getArmorStand();
         PosePartMutator[] posePartMutators = this.holder.getDataProvider().getPosePartMutators();
         ArmorStandPose.checkMutatorsSize(posePartMutators);
         for (int i = 0; i < posePartMutators.length; i++) {
@@ -168,10 +167,10 @@ public class ArmorStandRotationsScreen extends AbstractArmorStandScreen {
                 public void clearDirty() {
                     if (this.isDirty()) {
                         this.dirty = false;
-                        ArmorStandRotationsScreen.this.dataSyncHandler.sendPose(ArmorStandRotationsScreen.this.currentPose);
+                        ArmorStandRotationsScreen.this.setCurrentPose(ArmorStandRotationsScreen.this.currentPose);
                     }
                 }
-            }).active = isPosePartMutatorActive(mutator, armorStand);
+            }).active = isPosePartMutatorActive(mutator, this.holder.getArmorStand());
             this.addRenderableWidget(new VerticalSliderButton(this.leftPos + 6 + i % 2 * 183, this.topPos + 7 + i / 2 * 60, () -> mutator.getNormalizedRotationsAtAxis(2, this.currentPose, clampRotations)) {
                 private boolean dirty;
 
@@ -217,10 +216,10 @@ public class ArmorStandRotationsScreen extends AbstractArmorStandScreen {
                 public void clearDirty() {
                     if (this.isDirty()) {
                         this.dirty = false;
-                        ArmorStandRotationsScreen.this.dataSyncHandler.sendPose(ArmorStandRotationsScreen.this.currentPose);
+                        ArmorStandRotationsScreen.this.setCurrentPose(ArmorStandRotationsScreen.this.currentPose);
                     }
                 }
-            }).active = isPosePartMutatorActive(mutator, armorStand);
+            }).active = isPosePartMutatorActive(mutator, this.holder.getArmorStand());
             this.toggleLockButtons();
         }
     }
@@ -259,9 +258,10 @@ public class ArmorStandRotationsScreen extends AbstractArmorStandScreen {
         return ArmorStandScreenType.ROTATIONS;
     }
 
-    private void setCurrentPose(ArmorStandPose currentPose) {
-        this.currentPose = currentPose;
-        this.dataSyncHandler.sendPose(this.currentPose);
+    private void setCurrentPose(ArmorStandPose pose) {
+        this.dataSyncHandler.sendPose(pose);
+        ArmorStandPose lastSyncedPose = this.dataSyncHandler.getLastSyncedPose();
+        this.currentPose = lastSyncedPose != null ? lastSyncedPose : pose;
         this.refreshLiveButtons();
     }
 

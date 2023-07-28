@@ -3,6 +3,10 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog].
 
+## [v8.1.2-1.20.1] - 2023-07-28
+### Changed
+- Ported statues api changes from 1.19 for full Vanilla Tweaks support for armor stands
+
 ## [v8.1.1-1.20.1] - 2023-07-27
 ### Fixed
 - Minor things from 1.20 port

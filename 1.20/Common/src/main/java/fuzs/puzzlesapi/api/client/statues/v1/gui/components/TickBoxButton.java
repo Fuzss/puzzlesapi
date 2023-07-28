@@ -6,32 +6,19 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
-import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.util.Mth;
 
+import java.util.function.BooleanSupplier;
+
 public class TickBoxButton extends Button {
     private final int textMargin;
-    private boolean selected;
+    private BooleanSupplier supplier;
 
-    public TickBoxButton(int posX, int posY, boolean selected, OnPress onPress) {
-        this(posX, posY, 0, 0, CommonComponents.EMPTY, selected, onPress);
-    }
-
-    public TickBoxButton(int posX, int posY, int textMargin, int textWidth, Component component, boolean selected, OnPress onPress) {
+    public TickBoxButton(int posX, int posY, int textMargin, int textWidth, Component component, BooleanSupplier supplier, OnPress onPress) {
         super(posX, posY, 20 + textMargin + textWidth, 20, component, onPress, DEFAULT_NARRATION);
         this.textMargin = textMargin;
-        this.selected = selected;
-    }
-
-    @Override
-    public void onPress() {
-        this.selected = !this.selected;
-        super.onPress();
-    }
-
-    public boolean isSelected() {
-        return this.selected;
+        this.supplier = supplier;
     }
 
     @Override
@@ -41,7 +28,7 @@ public class TickBoxButton extends Button {
         RenderSystem.enableBlend();
         RenderSystem.enableDepthTest();
         guiGraphics.blit(AbstractArmorStandScreen.getArmorStandWidgetsLocation(), this.getX() + 2, this.getY() + 2, 196, this.isHoveredOrFocused() ? 16 : 0, 16, 16);
-        if (this.selected) {
+        if (this.supplier.getAsBoolean()) {
             guiGraphics.blit(AbstractArmorStandScreen.getArmorStandWidgetsLocation(), this.getX() + 2, this.getY() + 2, 196, 32 + (this.isHoveredOrFocused() ? 16 : 0), 16, 16);
         }
         final int textColor = this.active ? (this.isHoveredOrFocused() ? ChatFormatting.YELLOW.getColor() : 16777215) : 10526880;

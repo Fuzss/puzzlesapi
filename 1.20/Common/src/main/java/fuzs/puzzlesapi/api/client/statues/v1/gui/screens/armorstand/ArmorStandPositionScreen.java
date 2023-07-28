@@ -31,7 +31,7 @@ import java.util.function.Consumer;
 import java.util.function.DoubleConsumer;
 import java.util.function.DoubleSupplier;
 
-public class ArmorStandPositionScreen extends AbstractArmorStandPositionScreen {
+public class ArmorStandPositionScreen extends ArmorStandButtonsScreen {
     public static final String ROTATION_TRANSLATION_KEY = Statues.MOD_ID + ".screen.position.rotation";
     public static final String POSITION_X_TRANSLATION_KEY = Statues.MOD_ID + ".screen.position.x";
     public static final String POSITION_Y_TRANSLATION_KEY = Statues.MOD_ID + ".screen.position.y";
@@ -42,6 +42,11 @@ public class ArmorStandPositionScreen extends AbstractArmorStandPositionScreen {
     public static final String BLOCKS_TRANSLATION_KEY = Statues.MOD_ID + ".screen.position.blocks";
     public static final String DEGREES_TRANSLATION_KEY = Statues.MOD_ID + ".screen.position.degrees";
     public static final String MOVE_BY_TRANSLATION_KEY = Statues.MOD_ID + ".screen.position.moveBy";
+    public static final String CENTERED_TRANSLATION_KEY = Statues.MOD_ID + ".screen.centered";
+    public static final String CENTERED_DESCRIPTION_TRANSLATION_KEY = Statues.MOD_ID + ".screen.centered.description";
+    public static final String CORNERED_TRANSLATION_KEY = Statues.MOD_ID + ".screen.cornered";
+    public static final String CORNERED_DESCRIPTION_TRANSLATION_KEY = Statues.MOD_ID + ".screen.cornered.description";
+    public static final String ALIGNED_TRANSLATION_KEY = Statues.MOD_ID + ".screen.aligned";
     private static final DecimalFormat BLOCK_INCREMENT_FORMAT = Util.make(new DecimalFormat("#.####"), (decimalFormat) -> {
         decimalFormat.setDecimalFormatSymbols(DecimalFormatSymbols.getInstance(Locale.ROOT));
     });
@@ -54,7 +59,7 @@ public class ArmorStandPositionScreen extends AbstractArmorStandPositionScreen {
     }
 
     @Override
-    protected List<PositionScreenWidget> buildWidgets(ArmorStand armorStand) {
+    protected List<ArmorStandWidget> buildWidgets(ArmorStand armorStand) {
         // only move server-side to prevent rubber banding
         return Lists.newArrayList(
                 new RotationWidget(Component.translatable(ROTATION_TRANSLATION_KEY), armorStand::getYRot, this.dataSyncHandler::sendRotation),
@@ -88,7 +93,7 @@ public class ArmorStandPositionScreen extends AbstractArmorStandPositionScreen {
         return (int) Math.round(increment * 16.0);
     }
 
-    protected class RotationWidget extends AbstractPositionScreenWidget {
+    protected class RotationWidget extends AbstractArmorStandWidget {
         protected final DoubleSupplier currentValue;
         protected final Consumer<Float> newValue;
         private final double snapInterval;
@@ -192,7 +197,7 @@ public class ArmorStandPositionScreen extends AbstractArmorStandPositionScreen {
         }
     }
 
-    private class PositionIncrementWidget extends AbstractPositionScreenWidget {
+    private class PositionIncrementWidget extends AbstractArmorStandWidget {
 
         public PositionIncrementWidget() {
             super(Component.translatable(MOVE_BY_TRANSLATION_KEY));
@@ -227,12 +232,12 @@ public class ArmorStandPositionScreen extends AbstractArmorStandPositionScreen {
         }
 
         @Override
-        public boolean alwaysVisible(@Nullable PositionScreenWidget activeWidget) {
+        public boolean alwaysVisible(@Nullable ArmorStandWidget activeWidget) {
             return !(activeWidget instanceof RotationWidget);
         }
     }
 
-    private class PositionComponentWidget extends AbstractPositionScreenWidget {
+    private class PositionComponentWidget extends AbstractArmorStandWidget {
         private final DoubleSupplier currentValue;
         private final DoubleConsumer newValue;
 
@@ -316,7 +321,7 @@ public class ArmorStandPositionScreen extends AbstractArmorStandPositionScreen {
         }
 
         @Override
-        public boolean alwaysVisible(@Nullable PositionScreenWidget activeWidget) {
+        public boolean alwaysVisible(@Nullable ArmorStandWidget activeWidget) {
             return activeWidget instanceof PositionIncrementWidget || super.alwaysVisible(activeWidget);
         }
     }

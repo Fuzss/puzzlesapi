@@ -5,6 +5,7 @@ import fuzs.puzzlesapi.api.statues.v1.network.client.data.DataSyncHandler;
 import fuzs.puzzlesapi.api.statues.v1.world.inventory.ArmorStandHolder;
 import fuzs.puzzlesapi.api.statues.v1.world.inventory.data.ArmorStandPose;
 import fuzs.puzzlesapi.api.statues.v1.world.inventory.data.ArmorStandScreenType;
+import fuzs.puzzlesapi.impl.statues.Statues;
 import fuzs.puzzleslib.api.client.screen.v2.ScreenTooltipFactory;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.GuiGraphics;
@@ -22,6 +23,7 @@ import java.util.List;
 import java.util.Optional;
 
 public class ArmorStandPosesScreen extends AbstractArmorStandScreen {
+    public static final String POSE_SOURCE_TRANSLATION_KEY = Statues.MOD_ID + ".screen.pose.by";
     private static final int POSES_PER_PAGE = 4;
 
     private static int firstPoseIndex;
@@ -70,9 +72,9 @@ public class ArmorStandPosesScreen extends AbstractArmorStandScreen {
                             if (translationKey != null) {
                                 Component component = Component.translatable(translationKey);
                                 List<Component> lines = Lists.newArrayList(component);
-                                String source = pose.getSource();
+                                String source = pose.getSourceType().getDisplayName();
                                 if (!StringUtil.isNullOrEmpty(source)) {
-                                    lines.add(Component.translatable(ArmorStandPose.POSE_SOURCE_TRANSLATION_KEY, source).withStyle(ChatFormatting.GRAY));
+                                    lines.add(Component.translatable(POSE_SOURCE_TRANSLATION_KEY, source).withStyle(ChatFormatting.GRAY));
                                 }
                                 this.setTooltip(ScreenTooltipFactory.create(ArmorStandPosesScreen.this.font, lines));
                             }

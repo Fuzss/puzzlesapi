@@ -1,10 +1,7 @@
 package fuzs.puzzlesapi.impl.data;
 
 import fuzs.puzzlesapi.api.client.iteminteractions.v1.tooltip.ExpandableClientTooltipComponent;
-import fuzs.puzzlesapi.api.client.statues.v1.gui.screens.armorstand.AbstractArmorStandPositionScreen;
-import fuzs.puzzlesapi.api.client.statues.v1.gui.screens.armorstand.AbstractArmorStandScreen;
-import fuzs.puzzlesapi.api.client.statues.v1.gui.screens.armorstand.ArmorStandPositionScreen;
-import fuzs.puzzlesapi.api.client.statues.v1.gui.screens.armorstand.ArmorStandRotationsScreen;
+import fuzs.puzzlesapi.api.client.statues.v1.gui.screens.armorstand.*;
 import fuzs.puzzlesapi.api.statues.v1.helper.ArmorStandInteractHelper;
 import fuzs.puzzlesapi.api.statues.v1.world.inventory.data.*;
 import fuzs.puzzlesapi.impl.PuzzlesApi;
@@ -36,7 +33,7 @@ public class ModLanguageProvider extends AbstractLanguageProvider {
         this.add(CyclingInputHandler.CYCLE_RIGHT_KEY_MAPPING, "Cycle Hotbar Slot Right");
         // Statues
         this.add(ArmorStandInteractHelper.OPEN_SCREEN_TRANSLATION_KEY, "Use [%s] + [%s] with an empty hand to open configuration screen.");
-        this.add(ArmorStandPose.POSE_SOURCE_TRANSLATION_KEY, "By %s");
+        this.add(ArmorStandPosesScreen.POSE_SOURCE_TRANSLATION_KEY, "By %s");
         this.add(ArmorStandPose.ATHENA.getTranslationKey(), "Athena");
         this.add(ArmorStandPose.BRANDISH.getTranslationKey(), "Brandish");
         this.add(ArmorStandPose.CANCAN.getTranslationKey(), "Cancan");
@@ -71,7 +68,7 @@ public class ModLanguageProvider extends AbstractLanguageProvider {
         this.add(ArmorStandScreenType.STYLE.getTranslationKey(), "Style");
         this.add(ArmorStandScreenType.POSES.getTranslationKey(), "Poses");
         this.add(ArmorStandScreenType.POSITION.getTranslationKey(), "Position");
-        this.add(ArmorStandStyleOption.TEXT_BOX_TRANSLATION_KEY, "Set a name to display above the entity if enabled.");
+        this.add(ArmorStandStyleScreen.TEXT_BOX_TRANSLATION_KEY, "Set a name to display above the entity if enabled.");
         this.add(ArmorStandStyleOptions.SHOW_ARMS.getTranslationKey(), "Show Arms");
         this.add(ArmorStandStyleOptions.SHOW_ARMS.getDescriptionKey(), "Shows the statue's arms, so it may hold items in both hands.");
         this.add(ArmorStandStyleOptions.SMALL.getTranslationKey(), "Small");
@@ -96,6 +93,11 @@ public class ModLanguageProvider extends AbstractLanguageProvider {
         this.add(ArmorStandPositionScreen.MOVE_BY_TRANSLATION_KEY, "Move By:");
         this.add(ArmorStandPositionScreen.PIXELS_TRANSLATION_KEY, "%s Pixel(s)");
         this.add(ArmorStandPositionScreen.BLOCKS_TRANSLATION_KEY, "%s Block(s)");
+        this.add(ArmorStandPositionScreen.CENTERED_TRANSLATION_KEY, "Align Centered");
+        this.add(ArmorStandPositionScreen.CENTERED_DESCRIPTION_TRANSLATION_KEY, "Align an armor stand in the center of the block position it is placed on.");
+        this.add(ArmorStandPositionScreen.CORNERED_TRANSLATION_KEY, "Align Cornered");
+        this.add(ArmorStandPositionScreen.CORNERED_DESCRIPTION_TRANSLATION_KEY, "Align an armor stand at the corner of the block position it is placed on.");
+        this.add(ArmorStandPositionScreen.ALIGNED_TRANSLATION_KEY, "Aligned!");
         this.add(PosePartMutator.HEAD.getTranslationKey(), "Head");
         this.add(PosePartMutator.BODY.getTranslationKey(), "Body");
         this.add(PosePartMutator.LEFT_ARM.getTranslationKey(), "Left Arm");
@@ -105,8 +107,8 @@ public class ModLanguageProvider extends AbstractLanguageProvider {
         this.add(PosePartMutator.AXIS_X_TRANSLATION_KEY, "X: %s");
         this.add(PosePartMutator.AXIS_Y_TRANSLATION_KEY, "Y: %s");
         this.add(PosePartMutator.AXIS_Z_TRANSLATION_KEY, "Z: %s");
-        this.add(ArmorStandRotationsScreen.TIP_TRANSLATION_KEY + 1, "Hold any [§dShift§r] or [§dAlt§r] key to lock sliders to a single axis!");
-        this.add(ArmorStandRotationsScreen.TIP_TRANSLATION_KEY + 2, "Use arrow keys to move sliders more precisely! Focus a slider first by clicking.");
+        this.add(ArmorStandRotationsScreen.TIP_TRANSLATION_KEY + 1, "Hold any [§dShift§r] or [§dAlt§r] key to lock two-dimensional sliders to a single axis while dragging!");
+        this.add(ArmorStandRotationsScreen.TIP_TRANSLATION_KEY + 2, "Use arrow keys to move sliders with greater precision than when dragging! Focus a slider first by clicking.");
         this.add(ArmorStandRotationsScreen.RESET_TRANSLATION_KEY, "Reset");
         this.add(ArmorStandRotationsScreen.RANDOMIZE_TRANSLATION_KEY, "Randomize");
         this.add(ArmorStandRotationsScreen.LIMITED_TRANSLATION_KEY, "Limited Rotations");
@@ -114,11 +116,7 @@ public class ModLanguageProvider extends AbstractLanguageProvider {
         this.add(ArmorStandRotationsScreen.COPY_TRANSLATION_KEY, "Copy");
         this.add(ArmorStandRotationsScreen.PASTE_TRANSLATION_KEY, "Paste");
         this.add(ArmorStandRotationsScreen.MIRROR_TRANSLATION_KEY, "Mirror");
-        this.add(AbstractArmorStandPositionScreen.CENTERED_TRANSLATION_KEY, "Align Centered");
-        this.add(AbstractArmorStandPositionScreen.CENTERED_DESCRIPTION_TRANSLATION_KEY, "Align an armor stand in the center of the block position it is placed on.");
-        this.add(AbstractArmorStandPositionScreen.CORNERED_TRANSLATION_KEY, "Align Cornered");
-        this.add(AbstractArmorStandPositionScreen.CORNERED_DESCRIPTION_TRANSLATION_KEY, "Align an armor stand at the corner of the block position it is placed on.");
-        this.add(ArmorStandAlignment.BLOCK.getTranslationKey(), "Align Block on Surface");
+        this.add(ArmorStandAlignment.BLOCK.getTranslationKey(), "Align Block On Surface");
         this.add(ArmorStandAlignment.BLOCK.getDescriptionsKey(), "Align an armor stand placed on a surface so that a block held by it appears on the surface.");
         this.add(ArmorStandAlignment.FLOATING_ITEM.getTranslationKey(), "Align Item On Surface");
         this.add(ArmorStandAlignment.FLOATING_ITEM.getDescriptionsKey(), "Align an armor stand placed on a surface so that an item held by it appears upright on the surface.");
@@ -126,8 +124,6 @@ public class ModLanguageProvider extends AbstractLanguageProvider {
         this.add(ArmorStandAlignment.FLAT_ITEM.getDescriptionsKey(), "Align an armor stand placed on a surface so that a non-tool item held by it appears flat on the surface.");
         this.add(ArmorStandAlignment.TOOL.getTranslationKey(), "Align Tool Flat On Surface");
         this.add(ArmorStandAlignment.TOOL.getDescriptionsKey(), "Align an armor stand placed on a surface so that a tool held by it appears flat on the surface.");
-        this.add(AbstractArmorStandScreen.APPLIED_TRANSLATION_KEY, "Applied!");
-        this.add(AbstractArmorStandScreen.ALIGNED_TRANSLATION_KEY, "Aligned!");
         this.add(AbstractArmorStandScreen.CREDITS_TRANSLATION_KEY, "Some content on this page originates from the Vanilla Tweaks \"Armor Statues\" data pack. Click this button to go to their website!");
     }
 }
