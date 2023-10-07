@@ -32,12 +32,13 @@ public class CyclingInputHandler {
         Player player = minecraft.player;
         if (!player.isSpectator() && SlotCycling.CONFIG.get(ClientConfig.class).scrollingModifierKey.isActive()) {
             double totalScroll = verticalAmount + ((MouseHandlerAccessor) minecraft.mouseHandler).slotcycling$getAccumulatedScroll();
+            boolean interrupt = false;
             if (totalScroll > 0.0) {
-                cycleSlot(minecraft, player, SlotCyclingProvider::cycleSlotBackward);
+                interrupt = cycleSlot(minecraft, player, SlotCyclingProvider::cycleSlotBackward);
             } else if (totalScroll < 0.0) {
-                cycleSlot(minecraft, player, SlotCyclingProvider::cycleSlotForward);
+                interrupt = cycleSlot(minecraft, player, SlotCyclingProvider::cycleSlotForward);
             }
-            return EventResult.INTERRUPT;
+            if (interrupt) return EventResult.INTERRUPT;
         }
         return EventResult.PASS;
     }
@@ -80,7 +81,7 @@ public class CyclingInputHandler {
         }
     }
 
-    private static void cycleSlot(Minecraft minecraft, Player player, Predicate<SlotCyclingProvider> cycleAction) {
+    private static boolean cycleSlot(Minecraft minecraft, Player player, Predicate<SlotCyclingProvider> cycleAction) {
         SlotCyclingProvider provider = SlotCyclingProvider.getProvider(player);
         if (provider != null && cycleAction.test(provider)) {
             slotsDisplayTicks = DEFAULT_SLOTS_DISPLAY_TICKS;
@@ -89,7 +90,9 @@ public class CyclingInputHandler {
             if (provider instanceof ItemCyclingProvider itemProvider) {
                 clearItemRendererInHand(minecraft, itemProvider.interactionHand());
             }
+            return true;
         }
+        return false;
     }
 
     private static void clearItemRendererInHand(Minecraft minecraft, InteractionHand interactionHand) {

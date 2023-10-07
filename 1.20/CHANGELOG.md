@@ -3,6 +3,10 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog].
 
+## [v8.1.3-1.20.1] - 2023-10-7
+### Fixed
+- Fixed hotbar mouse scrolling accidentally being cancelled while the `Alt` key is held
+
 ## [v8.1.2-1.20.1] - 2023-07-28
 ### Changed
 - Ported statues api changes from 1.19 for full Vanilla Tweaks support for armor stands
