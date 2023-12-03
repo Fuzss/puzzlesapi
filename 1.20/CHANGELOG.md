@@ -3,7 +3,11 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog].
 
-## [v8.1.3-1.20.1] - 2023-10-7
+## [v8.1.4-1.20.1] - 2023-12-03
+### Fixed
+- Fixed inconsistent network handlers registration order
+
+## [v8.1.3-1.20.1] - 2023-10-07
 ### Fixed
 - Fixed hotbar mouse scrolling accidentally being cancelled while the `Alt` key is held
 

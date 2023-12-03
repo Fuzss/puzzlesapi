@@ -27,7 +27,7 @@ public class ItemInteractions implements ModConstructor {
     public static final String MOD_NAME = PuzzlesApi.MOD_NAME;
     public static final Logger LOGGER = PuzzlesApi.LOGGER;
 
-    public static final NetworkHandlerV2 NETWORK = NetworkHandlerV2.build(MOD_ID, true, true);
+    public static final NetworkHandlerV2 NETWORK = NetworkHandlerV2.build(MOD_ID, "iteminteractions", true, true);
     public static final ConfigHolder CONFIG = ConfigHolder.builder(MOD_ID).client(ClientConfig.class).server(ServerConfig.class)
             .setFileName(ClientConfig.class, modId -> modId + "-iteminteractions-client.toml")
             .setFileName(ServerConfig.class, modId -> modId + "-iteminteractions-server.toml");
