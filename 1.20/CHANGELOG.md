@@ -3,6 +3,10 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog].
 
+## [v8.1.5-1.20.1] - 2024-01-24
+### Changed
+- Update bundled Puzzles Access Api fix reobfuscation issue on Fabric
+
 ## [v8.1.4-1.20.1] - 2023-12-03
 ### Fixed
 - Fixed inconsistent network handlers registration order
