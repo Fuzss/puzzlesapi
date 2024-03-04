@@ -49,8 +49,8 @@ public class ItemInteractions implements ModConstructor {
     }
 
     private static void registerHandlers() {
-        PlayerTickEvents.START.register(EnderChestMenuHandler::onLivingTick);
-        SyncDataPackContentsCallback.EVENT.register(ItemContainerProviders.INSTANCE::sendProvidersToPlayer);
+        PlayerTickEvents.START.register(EnderChestMenuHandler::onStartPlayerTick);
+        SyncDataPackContentsCallback.EVENT.register(ItemContainerProviders.INSTANCE::onSyncDataPackContents);
     }
 
     @Override
