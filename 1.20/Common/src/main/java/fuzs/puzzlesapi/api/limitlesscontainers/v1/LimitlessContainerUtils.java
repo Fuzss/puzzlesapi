@@ -153,7 +153,7 @@ public class LimitlessContainerUtils {
 
     public static void placeItemBackInPlayerInventory(Player player, ItemStack itemStack) {
         while (itemStack.getCount() > itemStack.getMaxStackSize()) {
-            player.getInventory().placeItemBackInInventory(itemStack);
+            player.getInventory().placeItemBackInInventory(itemStack.split(itemStack.getMaxStackSize()));
         }
         player.getInventory().placeItemBackInInventory(itemStack);
     }
